@@ -1,0 +1,1853 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E1116">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="핏맨">
+<meta name="description" content="옷 입었을 때 티 나는 근육만 골라 짜주는 웨이트 루틴 앱">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+
+<title>핏맨 — 옷발 근육 재단소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Do+Hyeon&family=Gothic+A1:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --floor:#0E1116; --panel:#161A21; --panel2:#1D232B; --line:rgba(255,255,255,.075);
+  --edge:rgba(255,255,255,.05);
+  --chalk:#F1EFEA; --dim:rgba(241,239,234,.56); --dim2:rgba(241,239,234,.32);
+  --blue:#3B6BE0; --blue2:#5C8BFF; --red:#D93A32; --yellow:#E5B12A; --green:#31A05F;
+  --steel:#98A2B0;
+}
+*{box-sizing:border-box}
+html{background:var(--floor)}
+body{margin:0;background:
+   radial-gradient(120% 60% at 50% -10%, #1B222C 0%, rgba(27,34,44,0) 60%), var(--floor);
+  color:var(--chalk);font-family:"Gothic A1",system-ui,sans-serif;font-size:15px;line-height:1.62;
+  -webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+.wrap{max-width:520px;margin:0 auto;
+  padding:env(safe-area-inset-top) calc(18px + env(safe-area-inset-right))
+          calc(72px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left))}
+.bebas{font-family:"Bebas Neue",Impact,sans-serif;letter-spacing:.06em}
+.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+
+/* ── 히어로 ─────────────────────────────── */
+.hero{padding:26px 0 4px;text-align:center}
+.brand{font-family:"Bebas Neue",sans-serif;font-size:13px;letter-spacing:.34em;color:var(--blue2);
+  margin:0 0 4px;opacity:.9}
+h1{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:clamp(29px,8.4vw,38px);
+  line-height:1.24;margin:0 0 10px;letter-spacing:-.005em}
+h1 span{color:var(--blue2)}
+.lede{margin:0 auto;max-width:400px;color:var(--dim);font-size:13.5px}
+.stage{margin:2px auto -4px;max-width:330px}
+.stage svg{display:block;width:100%;height:auto}
+@keyframes raiseL{0%,10%{transform:rotate(0deg)}44%,56%{transform:rotate(-70deg)}92%,100%{transform:rotate(0deg)}}
+@keyframes raiseR{0%,10%{transform:rotate(0deg)}44%,56%{transform:rotate(70deg)}92%,100%{transform:rotate(0deg)}}
+.armL{transform-origin:118px 96px;animation:raiseL 3.4s cubic-bezier(.4,0,.3,1) infinite}
+.armR{transform-origin:182px 96px;animation:raiseR 3.4s cubic-bezier(.4,0,.3,1) infinite}
+@media (prefers-reduced-motion:reduce){.armL,.armR{animation:none}}
+
+/* ── 폼 ─────────────────────────────────── */
+.q{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:15px 15px 16px;box-shadow:inset 0 1px 0 var(--edge)}
+.q-label{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.q-num{font-family:"Bebas Neue",sans-serif;font-size:15px;color:var(--blue2);letter-spacing:.1em;
+  background:rgba(59,107,224,.13);border:1px solid rgba(59,107,224,.3);border-radius:4px;padding:0 6px;line-height:1.5}
+.q-title{font-weight:700;font-size:14.5px}
+.q-hint{font-size:11.5px;color:var(--dim2);margin-left:auto}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font:inherit;font-family:"Gothic A1",sans-serif;font-size:13.5px;font-weight:600;
+  background:var(--panel2);color:var(--dim);border:1px solid var(--line);border-radius:7px;
+  padding:9px 14px;cursor:pointer;transition:all .15s;box-shadow:inset 0 1px 0 var(--edge)}
+.chip:hover{color:var(--chalk);border-color:rgba(92,139,255,.4)}
+.chip[aria-pressed="true"]{background:linear-gradient(180deg,var(--blue2),var(--blue));
+  border-color:var(--blue2);color:#fff;box-shadow:0 3px 14px rgba(59,107,224,.35)}
+.chip:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.fields{display:flex;gap:8px;margin-top:9px}
+.fields label{flex:1;display:flex;align-items:center;gap:7px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:7px;padding:9px 12px;font-size:12px;color:var(--dim2)}
+.fields input{flex:1;min-width:0;width:100%;font-family:"IBM Plex Mono",monospace;font-size:15px;
+  font-weight:600;color:var(--chalk);background:transparent;border:none;outline:none}
+.fields input::placeholder{color:rgba(241,239,234,.22)}
+.fields label:focus-within{border-color:var(--blue2)}
+.unit{font-family:"Bebas Neue",sans-serif;font-size:13px;letter-spacing:.08em}
+
+.cut{width:100%;margin-top:20px;font-family:"Do Hyeon",sans-serif;font-size:19px;
+  background:linear-gradient(180deg,var(--blue2),var(--blue));color:#fff;border:none;border-radius:9px;
+  padding:15px;cursor:pointer;letter-spacing:.02em;box-shadow:0 6px 20px rgba(59,107,224,.32)}
+.cut:active{transform:translateY(1px);box-shadow:0 3px 12px rgba(59,107,224,.3)}
+.cut:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
+
+/* ── 결과 ───────────────────────────────── */
+#result{margin-top:38px}
+#result[hidden]{display:none}
+.reveal{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.reveal{animation:none}}
+
+.rhead{display:flex;align-items:flex-end;gap:12px;margin-bottom:16px}
+.rhead h2{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:24px;margin:0;line-height:1.2}
+.rhead .big{font-family:"Bebas Neue",sans-serif;font-size:52px;line-height:.82;color:var(--blue2)}
+.spec{font-size:12px;color:var(--dim2);margin:2px 0 20px;font-family:"IBM Plex Mono",monospace}
+
+.map{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 8px 4px;
+  margin-bottom:12px;box-shadow:inset 0 1px 0 var(--edge)}
+.map svg{display:block;width:100%;height:auto;max-height:280px}
+.map .cap{text-align:center;font-size:11.5px;color:var(--dim2);padding:2px 0 8px}
+
+.vol{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 15px 6px;
+  margin-bottom:26px;box-shadow:inset 0 1px 0 var(--edge)}
+.vol h3{font-family:"Bebas Neue",sans-serif;font-size:15px;letter-spacing:.18em;color:var(--dim2);
+  margin:0 0 10px;font-weight:400}
+.vrow{display:flex;align-items:center;gap:10px;padding:6px 0}
+.vrow .nm{width:38px;font-size:13px;font-weight:600;flex:none}
+.vrow .tr{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.vrow .fl{height:100%;border-radius:4px}
+.vrow .vn{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--dim);width:42px;text-align:right;flex:none}
+
+.day{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;
+  overflow:hidden;box-shadow:inset 0 1px 0 var(--edge)}
+.ex{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.045)}
+.ex:last-child{border-bottom:none}
+.ex-n{font-weight:600;font-size:14.5px}
+.ex-d{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--blue2);white-space:nowrap;font-weight:600}
+.ex-c{grid-column:1/-1;font-size:12.5px;color:var(--dim);margin-top:2px}
+.ex-c i{font-style:normal;color:var(--dim2)}
+.ex-w{grid-column:1/-1;margin-top:8px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:8px;padding:9px 11px;font-size:12.5px;color:var(--dim)}
+.ex-w .kg{font-family:"Bebas Neue",sans-serif;font-size:22px;color:var(--chalk);letter-spacing:.04em;
+  margin-right:5px;vertical-align:-1px}
+.ex-w .tag{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.14em;color:var(--dim2);margin-right:6px}
+.load{display:flex;align-items:center;gap:3px;margin-top:7px;flex-wrap:wrap}
+.load .barbar{width:22px;height:4px;background:linear-gradient(180deg,#D8DEE7,#7E8894);border-radius:2px}
+.load .pl{border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;
+  color:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;line-height:1}
+.load .side{font-family:"Bebas Neue",sans-serif;font-size:11px;color:var(--dim2);letter-spacing:.1em;margin-left:5px}
+
+.see{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.12em;
+  background:rgba(59,107,224,.14);color:var(--blue2);border:1px solid rgba(59,107,224,.34);
+  border-radius:5px;padding:1px 7px;margin-left:6px;cursor:pointer;vertical-align:2px;line-height:1.5}
+.see[aria-expanded="true"]{background:var(--blue);color:#fff;border-color:var(--blue2)}
+.see:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.demo{grid-column:1/-1;margin-top:9px;border:1px solid var(--line);border-radius:8px;
+  background:#12161C;padding:4px}
+.demo[hidden]{display:none}
+.frames{display:flex;align-items:center;justify-content:center;gap:0}
+.frame{flex:1 1 0;min-width:0;text-align:center}
+.frame figure{margin:0}
+.frame svg{width:100%;height:auto;display:block}
+.frame figcaption{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.16em;
+  color:var(--dim2);margin-top:-6px;padding-bottom:6px}
+.go{flex:0 0 20px;color:var(--blue2);font-size:16px;text-align:center;padding-bottom:16px}
+.demo-tag{font-size:11.5px;color:var(--dim2);text-align:center;padding:5px 0 5px;
+  border-top:1px solid rgba(255,255,255,.05)}
+
+.note{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px}
+.note h3{font-family:"Bebas Neue",sans-serif;font-size:15px;letter-spacing:.18em;color:var(--dim2);
+  margin:0 0 10px;font-weight:400}
+.note p{margin:0 0 9px;font-size:12.5px;color:var(--dim)}
+.note p:last-child{margin-bottom:0}
+.note b{color:var(--chalk);font-weight:700}
+.actions{display:flex;gap:8px;margin-top:16px}
+.actions button{flex:1;font-family:"Gothic A1",sans-serif;font-size:13.5px;font-weight:700;
+  background:var(--panel2);color:var(--chalk);border:1px solid var(--line);border-radius:8px;
+  padding:13px;cursor:pointer;box-shadow:inset 0 1px 0 var(--edge)}
+.actions button:hover{border-color:rgba(92,139,255,.4)}
+.actions button:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+#copyOut{width:100%;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  border:1px solid var(--line);border-radius:8px;background:#0B0E12;padding:11px;height:180px;color:var(--dim)}
+#copyOut[hidden]{display:none}
+
+/* 핏맨 공통 */
+.mBody{fill:url(#chrome)}
+.mLimb{stroke:url(#chrome);stroke-linecap:round;stroke-linejoin:round;fill:none}
+.mEdge{stroke:#080A0D;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.fgL{stroke:url(#chrome);stroke-width:13;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.fgE{stroke:#080A0D;stroke-width:19;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.gr{stroke:var(--steel);stroke-width:2;stroke-dasharray:2 5;opacity:.45}
+.eqp{fill:var(--blue2)}
+.eqp line{stroke:var(--blue2);stroke-width:5;stroke-linecap:round}
+.bench{stroke:var(--steel);stroke-width:4;fill:none;opacity:.4;stroke-linecap:round}
+/* ── 도구 ─────────────────────────────── */
+.tools{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tools summary{list-style:none;cursor:pointer;padding:14px 15px;font-family:"Bebas Neue",sans-serif;
+  font-size:15px;letter-spacing:.16em;color:var(--dim);display:flex;align-items:center}
+.tools summary::-webkit-details-marker{display:none}
+.tools summary::after{content:"+";margin-left:auto;color:var(--blue2);font-size:18px}
+.tools[open] summary::after{content:"–"}
+.tbody{padding:0 15px 15px}
+.tool{border-top:1px solid var(--line);padding-top:13px;margin-top:2px}
+.tool h4{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:15px;margin:0 0 9px}
+.trow{display:flex;gap:7px;align-items:stretch}
+.fld{flex:1;display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:7px;padding:8px 11px;font-size:11.5px;color:var(--dim2)}
+.fld input,.fld select{flex:1;min-width:0;width:100%;font-family:"IBM Plex Mono",monospace;font-size:15px;
+  font-weight:600;color:var(--chalk);background:transparent;border:none;outline:none}
+.fld select option{background:#1D232B;color:var(--chalk)}
+.tbtn{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;
+  border:none;border-radius:7px;padding:0 16px;cursor:pointer;flex:none}
+.tout{margin-top:11px;font-size:12.5px;color:var(--dim)}
+.tout .kg{font-family:"Bebas Neue",sans-serif;font-size:23px;color:var(--chalk);letter-spacing:.04em;margin-right:4px}
+
+/* ── 연료 카드 ────────────────────────── */
+.fuel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:26px;
+  box-shadow:inset 0 1px 0 var(--edge)}
+.fuel h3{font-family:"Bebas Neue",sans-serif;font-size:15px;letter-spacing:.18em;color:var(--dim2);
+  margin:0 0 12px;font-weight:400;display:flex;align-items:center;gap:8px}
+.fuel h3 em{font-style:normal;font-family:"Gothic A1",sans-serif;font-size:11px;letter-spacing:0;
+  color:var(--blue2);background:rgba(59,107,224,.14);border:1px solid rgba(59,107,224,.3);
+  border-radius:4px;padding:1px 7px;font-weight:700}
+.fgrid{display:flex;gap:9px}
+.fcell{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 12px}
+.fcell .lab{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.14em;color:var(--dim2)}
+.fcell .val{font-family:"Bebas Neue",sans-serif;font-size:29px;line-height:1.05;margin-top:2px;letter-spacing:.02em}
+.fcell .val small{font-size:14px;color:var(--dim);letter-spacing:.06em}
+.fcell .sub{font-size:11px;color:var(--dim2);margin-top:4px;line-height:1.45}
+.food{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.food span{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:5px 9px;
+  font-size:11.5px;color:var(--dim)}
+.food b{color:var(--chalk);font-family:"IBM Plex Mono",monospace}
+.fnote{font-size:11.5px;color:var(--dim2);margin-top:12px;line-height:1.6}
+.fnote b{color:var(--dim);font-weight:700}
+
+/* ── 세션 러너 ────────────────────────── */
+.start{margin-left:8px;font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.12em;
+  background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--chalk);border-radius:6px;
+  padding:3px 9px;cursor:pointer;flex:none}
+.start:hover{border-color:var(--blue2);color:var(--blue2)}
+.runner{position:fixed;inset:0;z-index:60;overflow-y:auto;
+  padding-top:calc(16px + env(safe-area-inset-top));
+  background:radial-gradient(120% 55% at 50% 0%, #1C232E 0%, rgba(28,35,46,0) 62%), var(--floor);
+  display:flex;flex-direction:column;
+  padding:16px 18px calc(20px + env(safe-area-inset-bottom))}
+.rtop{display:flex;align-items:center;gap:9px;flex:none}
+.rtop .tag{font-family:"Bebas Neue",sans-serif;font-size:13px;letter-spacing:.16em;color:#fff;
+  border-radius:5px;padding:1px 8px;line-height:1.6}
+.rtop .cnt{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--dim2)}
+.rtop button{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:6px;
+  padding:4px 9px;font-size:12px;cursor:pointer;font-family:"Gothic A1",sans-serif}
+.rtop .sp{margin-left:auto;display:flex;gap:6px}
+.rbar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin:13px 0 4px;overflow:hidden;flex:none}
+.rbar i{display:block;height:100%;background:var(--blue2);transition:width .35s}
+.rmain{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:14px 0}
+.rname{font-family:"Do Hyeon",sans-serif;font-size:25px;line-height:1.26;margin:0 0 7px}
+.rmeta{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--blue2);margin-bottom:3px}
+.rcue{font-size:12.5px;color:var(--dim2);margin-top:12px;padding:0 4px;line-height:1.55}
+.dots{display:flex;gap:8px;justify-content:center;margin-bottom:15px}
+.dots i{width:13px;height:13px;border-radius:50%;border:2px solid var(--blue2);display:block}
+.dots i.on{background:var(--blue2)}
+.rfig{max-width:280px;width:100%;margin:0 auto}
+.rfig .frames{gap:0}
+.rbtn{width:100%;font-family:"Do Hyeon",sans-serif;font-size:20px;
+  background:linear-gradient(180deg,var(--blue2),var(--blue));color:#fff;border:none;border-radius:11px;
+  padding:17px;cursor:pointer;box-shadow:0 6px 22px rgba(59,107,224,.35);flex:none}
+.rbtn.ghost{background:var(--panel2);border:1px solid var(--line);box-shadow:none;color:var(--chalk);
+  font-size:15px;padding:13px}
+.rrow{display:flex;gap:8px;margin-top:9px;flex:none}
+.ring{width:min(64vw,220px);aspect-ratio:1;margin:0 auto 4px;position:relative}
+.ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"Bebas Neue",sans-serif;font-size:min(19vw,64px);letter-spacing:.02em}
+.rnext{font-size:12.5px;color:var(--dim2);margin-top:6px}
+.rnext b{color:var(--chalk);font-weight:700}
+.rdone{text-align:center}
+.rdone .big{font-family:"Bebas Neue",sans-serif;font-size:46px;color:var(--blue2);line-height:1}
+.rstat{display:flex;gap:9px;margin:18px 0 4px}
+.rstat div{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px}
+.rstat b{display:block;font-family:"Bebas Neue",sans-serif;font-size:26px;letter-spacing:.03em}
+.rstat span{font-size:10.5px;color:var(--dim2);font-family:"Bebas Neue",sans-serif;letter-spacing:.14em}
+/* ── DAY 탭 ──────────────────────────── */
+.tabs{display:flex;gap:6px;position:sticky;top:0;z-index:9;padding:9px 0 11px;
+  background:linear-gradient(180deg,var(--floor) 68%,rgba(14,17,22,0))}
+.tab{flex:1;min-width:0;font-family:"Bebas Neue",sans-serif;font-size:14.5px;letter-spacing:.1em;
+  background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:9px;
+  padding:8px 4px;cursor:pointer;transition:all .15s;line-height:1.15}
+.tab small{display:block;font-family:"Gothic A1",sans-serif;font-size:9.5px;letter-spacing:0;
+  opacity:.75;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab[aria-selected="true"]{color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.tab:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.daypanel[hidden]{display:none}
+.dhero{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid;border-radius:12px;padding:14px 15px;margin-bottom:10px;
+  box-shadow:inset 0 1px 0 var(--edge)}
+.dhero-l{min-width:0}
+.dtag{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.14em;color:#fff;
+  border-radius:5px;padding:1px 8px;line-height:1.6}
+.dhero h3{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:19px;margin:6px 0 2px}
+.dhero p{margin:0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--dim2)}
+.dgo{margin-left:auto;flex:none;font-family:"Do Hyeon",sans-serif;font-size:15px;color:#fff;
+  border:none;border-radius:9px;padding:12px 15px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.dgo:active{transform:translateY(1px)}
+.dgo:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* 조회 결과 */
+.thelp{font-size:11.5px;color:var(--dim2);margin:0 0 10px;line-height:1.55}
+.lkcard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:13px}
+.lkhead{display:flex;flex-direction:column;gap:2px;margin-bottom:11px}
+.lkhead b{font-size:15px;color:var(--chalk)}
+.lkhead span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--dim2)}
+.lkgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.lkgrid div{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;
+  padding:9px 4px;text-align:center}
+.lkgrid b{display:block;font-family:"Bebas Neue",sans-serif;font-size:24px;color:var(--blue2);letter-spacing:.03em}
+.lkgrid span{font-family:"Bebas Neue",sans-serif;font-size:10px;letter-spacing:.16em;color:var(--dim2)}
+/* 그림 아래 추천 중량 카드 */
+.lcard{display:flex;align-items:center;justify-content:center;gap:12px;max-width:300px;
+  margin:12px auto 0;background:var(--panel2);border:1px solid var(--line);border-radius:11px;
+  padding:11px 16px;box-shadow:inset 0 1px 0 var(--edge)}
+.lc-l{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.16em;color:var(--dim2);
+  text-align:left;line-height:1.25}
+.lc-l span{display:block;font-family:"Gothic A1",sans-serif;font-size:12.5px;letter-spacing:0;
+  color:var(--chalk);font-weight:700;margin-top:1px}
+.lc-v{font-family:"Bebas Neue",sans-serif;font-size:36px;letter-spacing:.02em;color:var(--chalk);line-height:1}
+.lc-v i{font-style:normal;font-size:15px;color:var(--dim);margin-left:3px;letter-spacing:.08em}
+.lcard.txt{font-family:"Gothic A1",sans-serif;font-size:12.5px;color:var(--dim);text-align:center;
+  display:block;padding:10px 14px}
+.lcard.txt b{color:var(--chalk)}
+.lcplates{display:flex;justify-content:center;margin-top:8px}
+.demo-load{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 10px;
+  border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:var(--dim2)}
+.demo-load b{font-family:"Bebas Neue",sans-serif;font-size:19px;color:var(--chalk);letter-spacing:.03em}
+.rnext .nw{display:inline-block;margin-top:4px;font-family:"IBM Plex Mono",monospace;
+  font-size:12px;color:var(--blue2)}
+/* 대체 운동 목록 */
+.swaplist{display:flex;flex-direction:column;gap:7px}
+.swapitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 13px;
+  box-shadow:inset 0 1px 0 var(--edge);transition:border-color .15s}
+.swapitem:hover{border-color:var(--blue2)}
+.swapitem:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.si-n{flex:1;min-width:0;font-family:"Gothic A1",sans-serif;font-size:14px;font-weight:600;color:var(--chalk)}
+.si-n em{font-style:normal;font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.12em;
+  color:var(--blue2);background:rgba(59,107,224,.14);border:1px solid rgba(59,107,224,.3);
+  border-radius:4px;padding:0 6px;margin-left:7px;vertical-align:1px}
+.si-n u{display:block;text-decoration:none;font-size:10.5px;font-weight:400;color:var(--dim2);margin-top:3px}
+.si-w{flex:none;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--dim);text-align:right}
+/* 식단 세부 */
+.fsec{border-top:1px solid var(--line);margin-top:15px;padding-top:13px}
+.fsec h4{font-family:"Bebas Neue",sans-serif;font-size:12.5px;letter-spacing:.16em;color:var(--blue2);
+  margin:0 0 9px;font-weight:400}
+.meal{display:flex;gap:11px;align-items:baseline;padding:8px 0;border-bottom:1px dotted rgba(255,255,255,.07)}
+.meal:last-of-type{border-bottom:none}
+.meal b{flex:none;width:52px;font-size:12.5px;color:var(--chalk);font-weight:700}
+.meal span{font-size:12.5px;color:var(--dim);line-height:1.5}
+.supp{display:flex;flex-direction:column;gap:7px}
+.supp div{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+  font-size:12px;color:var(--dim);line-height:1.6}
+.supp b{color:var(--chalk);font-weight:700}
+/* 실제 동작 사진 */
+.frames.photo{gap:7px}
+.frames.photo .go{padding-bottom:22px}
+.ph{position:relative;aspect-ratio:1/1;border-radius:9px;overflow:hidden;
+  background:#0B0E12;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.fallback{background:#0B0E12;display:flex;align-items:center;justify-content:center}
+.ph svg{width:100%;height:100%;display:block}
+.nofig{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.14em;color:var(--dim2)}
+.frames.photo figcaption{margin-top:6px}
+.credit{font-size:10.5px;color:var(--dim2);text-align:center;padding:6px 0 2px;
+  border-top:1px solid rgba(255,255,255,.05);margin-top:6px}
+/* 세트별 훈련 팁 */
+.rcue em{display:block;font-style:normal;font-family:"Bebas Neue",sans-serif;font-size:11.5px;
+  letter-spacing:.16em;color:var(--blue2);margin-bottom:5px}
+.tiplist{list-style:none;margin:10px 0 0;padding:0 4px 4px;
+  border-top:1px solid rgba(255,255,255,.05)}
+.tiplist li{padding:9px 0;border-bottom:1px dotted rgba(255,255,255,.06);
+  font-size:12px;color:var(--dim);line-height:1.6}
+.tiplist li:last-child{border-bottom:none}
+.tiplist b{display:block;font-family:"Bebas Neue",sans-serif;font-size:10.5px;letter-spacing:.14em;
+  color:var(--blue2);font-weight:400;margin-bottom:2px}
+/* 내 정보 저장 */
+.saverow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:11px;
+  padding-top:11px;border-top:1px solid var(--line)}
+.chip.mini{font-size:12.5px;padding:7px 11px}
+.chip.mini[aria-pressed="true"]::before{content:"✓ ";font-size:11px}
+.savest{font-size:11.5px;color:var(--dim2);flex:1;min-width:120px;line-height:1.4}
+.linkbtn{background:none;border:none;color:var(--dim2);font-family:"Gothic A1",sans-serif;
+  font-size:11.5px;text-decoration:underline;cursor:pointer;padding:2px 0;flex:none}
+.linkbtn:hover{color:var(--chalk)}
+.linkbtn:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+
+/* 홈 화면에 추가 안내 */
+.install{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+  z-index:40;display:flex;align-items:center;gap:11px;background:var(--panel2);
+  border:1px solid rgba(92,139,255,.35);border-radius:13px;padding:12px 14px;
+  box-shadow:0 10px 34px rgba(0,0,0,.55);max-width:496px;margin:0 auto}
+.install[hidden]{display:none}
+.install img{width:38px;height:38px;border-radius:9px;flex:none}
+.install p{margin:0;flex:1;font-size:12.5px;color:var(--dim);line-height:1.5}
+.install b{color:var(--chalk)}
+.install button{flex:none;font-family:"Gothic A1",sans-serif;font-weight:700;font-size:12.5px;
+  background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 13px;cursor:pointer}
+.install .x{background:transparent;color:var(--dim2);padding:9px 4px;font-weight:400}
+
+/* 제작자 · 출처 */
+.made{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);text-align:center}
+.made .by{font-family:"Do Hyeon",sans-serif;font-size:15px;color:var(--chalk);margin:0 0 3px}
+.made .by span{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.18em;
+  color:var(--blue2);display:block;margin-bottom:5px}
+.made p{margin:0 0 8px;font-size:11px;color:var(--dim2);line-height:1.7}
+.made .src{max-width:400px;margin:12px auto 8px;padding-top:11px;border-top:1px dotted rgba(255,255,255,.08)}
+.made .src b{color:var(--dim);font-weight:700}
+.made .copy{font-family:"IBM Plex Mono",monospace;font-size:10px;color:rgba(241,239,234,.22);margin-top:12px}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#FBFCFD"/><stop offset="38%" stop-color="#C3CBD6"/>
+    <stop offset="62%" stop-color="#7F8A99"/><stop offset="100%" stop-color="#B7C1CE"/>
+  </linearGradient>
+  <linearGradient id="chromeV" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FDFDFE"/><stop offset="45%" stop-color="#B9C2CE"/>
+    <stop offset="100%" stop-color="#6F7988"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="50%">
+    <stop offset="0%" stop-color="#3B6BE0" stop-opacity=".38"/>
+    <stop offset="100%" stop-color="#3B6BE0" stop-opacity="0"/>
+  </radialGradient>
+</defs></svg>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="brand">FITMAN TAILORING CO.</p>
+    <h1>옷 입었을 때<br><span>티 나는 근육</span>만 짭니다</h1>
+
+    <div class="stage">
+      <svg viewBox="0 0 300 262" role="img" aria-label="덤벨을 들어 올리는 크롬 마스코트 핏맨">
+        <ellipse cx="150" cy="150" rx="128" ry="104" fill="url(#glow)"/>
+        <!-- 플랫폼 -->
+        <rect x="62" y="234" width="176" height="12" rx="6" fill="#1C222B"/>
+        <rect x="62" y="234" width="176" height="2.5" rx="1.2" fill="rgba(255,255,255,.10)"/>
+        <!-- 다리 -->
+        <g class="mEdge" stroke-width="30"><path d="M138 172 L134 208 L134 234"/><path d="M162 172 L166 208 L166 234"/></g>
+        <g class="mLimb" stroke-width="23"><path d="M138 172 L134 208 L134 234"/><path d="M162 172 L166 208 L166 234"/></g>
+        <!-- 몸통 -->
+        <path class="mEdge" stroke-width="10" d="M117 92 L183 92 L173 150 L165 174 L135 174 L127 150 Z"/>
+        <path class="mBody" d="M117 92 L183 92 L173 150 L165 174 L135 174 L127 150 Z"/>
+        <path d="M150 100 L150 168" stroke="#7A8593" stroke-width="2.4" opacity=".55" fill="none"/>
+        <path d="M126 112 Q150 122 174 112" stroke="#7A8593" stroke-width="2.4" opacity=".45" fill="none"/>
+        <!-- 목·머리 -->
+        <path class="mEdge" stroke-width="22" d="M150 78 L150 90"/>
+        <path class="mLimb" stroke-width="15" d="M150 78 L150 90"/>
+        <ellipse cx="150" cy="54" rx="19" ry="21" fill="#080A0D"/>
+        <ellipse cx="150" cy="54" rx="16.5" ry="18.5" fill="url(#chromeV)"/>
+        <ellipse cx="143" cy="46" rx="5.5" ry="7.5" fill="#fff" opacity=".72"/>
+        <!-- 팔 (애니메이션) -->
+        <g class="armL">
+          <path class="mEdge" stroke-width="26" d="M118 96 L108 134 L100 170"/>
+          <path class="mLimb" stroke-width="19" d="M118 96 L108 134 L100 170"/>
+          <g transform="translate(100,170)">
+            <rect x="-13" y="-4" width="26" height="8" rx="4" fill="#B7C1CE"/>
+            <rect x="-19" y="-11" width="8" height="22" rx="3" fill="#3B6BE0"/>
+            <rect x="11" y="-11" width="8" height="22" rx="3" fill="#3B6BE0"/>
+          </g>
+        </g>
+        <g class="armR">
+          <path class="mEdge" stroke-width="26" d="M182 96 L192 134 L200 170"/>
+          <path class="mLimb" stroke-width="19" d="M182 96 L192 134 L200 170"/>
+          <g transform="translate(200,170)">
+            <rect x="-13" y="-4" width="26" height="8" rx="4" fill="#B7C1CE"/>
+            <rect x="-19" y="-11" width="8" height="22" rx="3" fill="#3B6BE0"/>
+            <rect x="11" y="-11" width="8" height="22" rx="3" fill="#3B6BE0"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <p class="lede">어깨 너비, 등 위쪽, 소매를 채우는 팔. 옷 밖으로 드러나는 부위에 세트를 몰아주는 주간 루틴을 짭니다.</p>
+  </header>
+
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">01</span><span class="q-title">운동하는 곳</span></div>
+    <div class="chips" id="q-eq">
+      <button class="chip" data-v="gym" aria-pressed="true">헬스장</button>
+      <button class="chip" data-v="db" aria-pressed="false">집 · 덤벨</button>
+      <button class="chip" data-v="bw" aria-pressed="false">맨몸 · 밴드</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">02</span><span class="q-title">주 몇 번 나가나요</span></div>
+    <div class="chips" id="q-days">
+      <button class="chip" data-v="2" aria-pressed="false">2일</button>
+      <button class="chip" data-v="3" aria-pressed="true">3일</button>
+      <button class="chip" data-v="4" aria-pressed="false">4일</button>
+      <button class="chip" data-v="5" aria-pressed="false">5일</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">03</span><span class="q-title">운동 경력</span></div>
+    <div class="chips" id="q-lv">
+      <button class="chip" data-v="a" aria-pressed="true">이제 시작</button>
+      <button class="chip" data-v="b" aria-pressed="false">3개월 ~ 2년</button>
+      <button class="chip" data-v="c" aria-pressed="false">2년 이상</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">04</span><span class="q-title">가장 아쉬운 부분</span><span class="q-hint">여기에 세트를 더 얹습니다</span></div>
+    <div class="chips" id="q-em">
+      <button class="chip" data-v="shoulder" aria-pressed="true">좁은 어깨</button>
+      <button class="chip" data-v="back" aria-pressed="false">밋밋한 등</button>
+      <button class="chip" data-v="arm" aria-pressed="false">헐렁한 소매</button>
+      <button class="chip" data-v="even" aria-pressed="false">고르게</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">05</span><span class="q-title">몸 정보</span><span class="q-hint">비우면 무게 없이 나옵니다</span></div>
+    <div class="chips" id="q-sex">
+      <button class="chip" data-v="m" aria-pressed="true">남</button>
+      <button class="chip" data-v="f" aria-pressed="false">여</button>
+    </div>
+    <div class="fields">
+      <label>키 <input id="in-h" type="number" inputmode="numeric" min="120" max="220" placeholder="175"><span class="unit">CM</span></label>
+      <label>체중 <input id="in-bw" type="number" inputmode="numeric" min="25" max="200" placeholder="70"><span class="unit">KG</span></label>
+      <label>나이 <input id="in-age" type="number" inputmode="numeric" min="10" max="90" placeholder="17"><span class="unit">세</span></label>
+    </div>
+    <div class="saverow">
+      <button class="chip mini" id="remember" aria-pressed="true">내 정보 기억하기</button>
+      <span class="savest" id="savest"></span>
+      <button class="linkbtn" id="forget" hidden>지우기</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">06</span><span class="q-title">목표</span><span class="q-hint">칼로리·단백질 계산에 씁니다</span></div>
+    <div class="chips" id="q-goal">
+      <button class="chip" data-v="keep" aria-pressed="true">지금 체중 유지</button>
+      <button class="chip" data-v="gain" aria-pressed="false">근육 늘리기</button>
+      <button class="chip" data-v="cut" aria-pressed="false">체지방 줄이기</button>
+    </div>
+  </div>
+
+  <button class="cut" id="cut">루틴 재단하기</button>
+
+  <details class="tools">
+    <summary>TOOLS · 종목별 내 세트·중량 찾기</summary>
+    <div class="tbody">
+      <div class="tool">
+        <h4>이 종목, 나는 몇 kg으로 몇 세트?</h4>
+        <p class="thelp">위에 입력한 성별 · 체중 · 경력을 그대로 써서 계산합니다. 루틴에 없는 종목도 찾아볼 수 있습니다.</p>
+        <div class="trow">
+          <span class="fld" style="flex:2"><select id="lk-ex"></select></span>
+          <button class="tbtn" id="lk-go">조회</button>
+        </div>
+        <div class="tout" id="lk-out">종목을 고르고 조회를 누르세요.</div>
+      </div>
+    </div>
+  </details>
+  <section id="result" hidden aria-live="polite"></section>
+
+  <footer class="made">
+    <p class="by"><span>MADE BY</span>체육교사 이형호</p>
+    <p>고양 풍동고등학교</p>
+
+    <div class="src">
+      <p><b>동작 사진</b> · Free Exercise DB — Unlicense(퍼블릭 도메인) 자료를 재배포했습니다.</p>
+      <p><b>중량 기준</b> · Strength Level, ExRx, FitnessVolt의 체중 대비 기준표를 종합해 보수적으로 조정했습니다.</p>
+      <p><b>영양 기준</b> · ISSN 포지션 스탠드(단백질 1.4~2.0g/kg), Morton 2018 메타분석, Mifflin-St Jeor 공식.</p>
+      <p>앱 구성·설계·훈련 문구는 제작자의 창작물입니다. 수업과 학생 지도 목적의 사용은 자유롭게 하셔도 됩니다.</p>
+      <p>운동에 관한 일반적인 정보를 제공할 뿐, 의학적 진단이나 처방이 아닙니다. 통증이 있거나 지병이 있다면 전문가와 상의하세요.</p>
+    </div>
+
+    <p class="copy">© 2026 이형호 · FITMAN TAILORING CO.</p>
+  </footer>
+</div>
+
+<div class="install" id="install" hidden>
+  <img src="icons/icon-192.png" alt="">
+  <p id="install-msg"></p>
+  <button id="install-go" hidden>설치</button>
+  <button class="x" id="install-x">닫기</button>
+</div>
+
+<script>
+/* ── 동작 그림: 관절 좌표 기반 ────────────── */
+const J=(o,x)=>Object.assign({},o,x);
+const FB={h:[100,34],n:[100,48],s:[122,58],p:[112,110],k:[114,150],an:[114,188]};
+const BB={h:[100,64],n:[100,76],s:[122,82],p:[112,124],k:[114,156],an:[114,190]};
+const SB={h:[92,34],n:[98,48],s:[102,60],p:[100,112],k:[100,152],an:[100,190]};
+const ROW={h:[68,62],n:[76,70],s:[86,78],p:[126,106],k:[128,148],an:[126,190],e:[90,112],w:[92,140]};
+const PUA={h:[54,116],n:[64,120],s:[74,124],p:[118,142],k:[148,158],an:[176,176],e:[86,152],w:[94,180]};
+const PUB={h:[50,142],n:[60,146],s:[70,150],p:[114,160],k:[146,168],an:[176,180],e:[92,154],w:[94,180]};
+const PLK={h:[52,126],n:[62,130],s:[72,134],p:[116,150],k:[146,164],an:[176,178],e:[72,180],w:[100,180]};
+const HG={h:[100,54],n:[100,66],s:[100,76],p:[100,126],k:[100,160],an:[100,192],e:[100,46],w:[100,18]};
+const BN={h:[132,100],n:[122,108],s:[116,112],p:[76,152],k:[62,180],an:[54,192]};
+const CR={h:[92,50],n:[96,64],s:[100,72],p:[104,124],k:[104,164],an:[132,178],e:[100,44],w:[104,20]};
+
+const POSE={
+ lateral :{v:'f',eq:'db',g:194,t:"팔을 옆으로 들어 올리는 동작",A:J(FB,{e:[128,86],w:[131,114]}),B:J(FB,{e:[152,62],w:[180,58]})},
+ press   :{v:'f',eq:'db',g:194,t:"머리 위로 밀어 올리는 동작",A:J(FB,{e:[142,80],w:[128,56]}),B:J(FB,{e:[132,32],w:[120,10]})},
+ shrug   :{v:'f',eq:'db',g:194,t:"어깨만 귀 쪽으로 들어 올리는 동작",A:J(FB,{s:[122,60],e:[128,88],w:[131,116]}),B:J(FB,{s:[122,48],e:[128,76],w:[131,104]})},
+ pulldown:{v:'f',eq:'bar',g:194,t:"위에서 아래로 당기는 동작",A:J(FB,{e:[142,28],w:[158,10]}),B:J(FB,{e:[140,86],w:[128,52]})},
+ facepull:{v:'f',eq:'',g:194,t:"얼굴 쪽으로 당겨 어깨를 여는 동작",A:J(FB,{e:[150,54],w:[178,48]}),B:J(FB,{e:[146,50],w:[120,34]})},
+ bentraise:{v:'f',eq:'db',g:194,t:"상체를 숙인 채 팔을 옆으로 벌리는 동작",A:J(BB,{e:[126,110],w:[128,136]}),B:J(BB,{e:[150,84],w:[178,80]})},
+ curl    :{v:'s',eq:'db',g:194,t:"팔꿈치만 접는 동작",A:J(SB,{e:[106,92],w:[108,122]}),B:J(SB,{e:[106,92],w:[86,72]})},
+ triext  :{v:'s',eq:'db',g:194,t:"팔꿈치만 펴는 동작",A:J(SB,{e:[100,32],w:[126,50]}),B:J(SB,{e:[100,32],w:[104,6]})},
+ row     :{v:'s',eq:'db',g:194,t:"상체를 숙인 채 뒤로 당기는 동작",A:ROW,B:J(ROW,{e:[62,94],w:[88,112]})},
+ pushup  :{v:'s',eq:'',g:184,t:"몸을 판자처럼 유지한 채 내렸다 미는 동작",A:PUA,B:PUB},
+ squat   :{v:'s',eq:'',g:194,t:"무릎과 엉덩이를 함께 접었다 서는 동작",A:J(SB,{e:[106,90],w:[108,118]}),
+           B:{h:[80,74],n:[88,86],s:[94,96],p:[84,144],k:[116,152],an:[100,190],e:[112,100],w:[130,96]}},
+ hinge   :{v:'s',eq:'db',g:194,t:"무릎은 거의 두고 엉덩이를 뒤로 빼는 동작",A:J(SB,{e:[106,90],w:[108,118]}),
+           B:{h:[144,72],n:[136,80],s:[128,88],p:[86,118],k:[96,154],an:[100,190],e:[128,118],w:[128,146]}},
+ bench   :{v:'s',eq:'db',g:194,bench:1,t:"누워서 위로 밀어 올리는 동작",A:J(BN,{e:[128,134],w:[152,128]}),B:J(BN,{e:[142,92],w:[168,72]})},
+ fly     :{v:'s',eq:'db',g:194,bench:1,t:"팔을 크게 벌렸다 모으는 동작",A:J(BN,{e:[140,140],w:[172,142]}),B:J(BN,{e:[138,96],w:[164,76]})},
+ hang    :{v:'s',eq:'bar2',t:"매달린 채 무릎을 가슴으로 접는 동작",A:HG,B:J(HG,{k:[130,112],an:[112,140]})},
+ crunch  :{v:'s',eq:'',g:182,t:"허리를 말아 갈비뼈를 골반으로 붙이는 동작",A:CR,B:J(CR,{h:[104,86],n:[102,96],s:[104,100],e:[110,72],w:[112,52]})},
+ plank   :{v:'s',eq:'',g:184,hold:1,t:"움직이지 않고 버티는 동작",A:PLK,B:PLK}
+};
+const RULES=[[/슈러그/,'shrug'],[/레터럴|업라이트 로우/,'lateral'],[/숄더 프레스/,'press'],
+ [/페이스 풀|펙덱/,'facepull'],[/리어 델트|Y 레이즈/,'bentraise'],[/풀다운|풀업|친업/,'pulldown'],
+ [/푸시업/,'pushup'],[/로우/,'row'],[/컬/,'curl'],[/익스텐션|푸시다운|딥스|스컬/,'triext'],
+ [/스쿼트|런지|레그 프레스|월 싯/,'squat'],[/플라이/,'fly'],[/프레스|풀오버/,'bench'],
+ [/데드리프트|쓰러스트/,'hinge'],[/플랭크|데드버그|롤아웃/,'plank'],[/니 레이즈/,'hang'],[/크런치/,'crunch']];
+const patOf=n=>{for(const [r,k] of RULES) if(r.test(n)) return k; return null;};
+
+function figure(key,which){
+  const P0=POSE[key], j=P0[which], front=P0.v==='f';
+  const M=p=>[200-p[0],p[1]];
+  const ln=(a,b)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;
+  const pl=pts=>`<polyline points="${pts.map(p=>p.join(',')).join(' ')}"/>`;
+  let bg='';
+  if(P0.bench) bg+=`<g class="bench"><line x1="54" y1="188" x2="152" y2="92"/><line x1="58" y1="192" x2="58" y2="176"/><line x1="148" y1="98" x2="148" y2="86"/></g>`;
+  if(P0.g) bg+=`<line class="gr" x1="12" y1="${P0.g}" x2="188" y2="${P0.g}"/>`;
+  if(P0.eq==='bar2') bg+=`<line class="gr" x1="44" y1="16" x2="156" y2="16"/>`;
+  let f=ln(j.n,j.p)+ln(j.n,j.h)+pl([j.s,j.e,j.w])+pl([j.p,j.k,j.an]);
+  if(front) f+=ln(j.s,M(j.s))+ln(j.p,M(j.p))+pl([M(j.s),M(j.e),M(j.w)])+pl([M(j.p),M(j.k),M(j.an)]);
+  const head=`<circle cx="${j.h[0]}" cy="${j.h[1]}" r="13" fill="#080A0D"/>
+    <circle cx="${j.h[0]}" cy="${j.h[1]}" r="10.5" fill="url(#chromeV)"/>
+    <ellipse cx="${j.h[0]-4}" cy="${j.h[1]-4}" rx="3.2" ry="4.2" fill="#fff" opacity=".65"/>`;
+  let eq='';
+  if(P0.eq==='db'){const d=p=>`<rect x="${p[0]-9}" y="${p[1]-4}" width="18" height="8" rx="3"/>`;
+    eq=`<g class="eqp">${d(j.w)}${front?d(M(j.w)):''}</g>`;}
+  if(P0.eq==='bar') eq=`<g class="eqp"><line x1="${j.w[0]+12}" y1="${j.w[1]}" x2="${M(j.w)[0]-12}" y2="${M(j.w)[1]}"/></g>`;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true">${bg}
+    <g class="fgE">${f}</g><g class="fgL">${f}</g>${head}${eq}</svg>`;
+}
+/* 종목별 · 세트별 훈련 팁 (수행법은 Free Exercise DB 원문 설명을 근거로 정리) */
+const TIPSTAGE=["세팅","실행","흔한 실수","마무리"];
+const TIPS={
+"덤벨 사이드 레터럴 레이즈": [
+"덤벨을 몸 옆이 아니라 살짝 앞에 두고 서서, 팔꿈치를 10도쯤 굽혀 고정합니다. 이 각도를 끝까지 바꾸지 않습니다.",
+"손이 아니라 팔꿈치를 먼저 들어 올린다고 생각하세요. 어깨 높이에서 멈추고, 내릴 때를 2초로.",
+"반동으로 튕기면 승모근이 대신 일합니다. 무릎 반동이 나오기 시작하면 무게를 줄이세요.",
+"마지막 세트는 절반만 올리는 반동작을 몇 개 붙여 끝까지 태워도 됩니다. 어깨가 아니라 목이 뻐근하면 중단."
+],
+"케이블 사이드 레터럴 레이즈": [
+"도르래를 가장 아래로 내리고, 케이블이 몸 앞을 가로지르도록 반대편 손잡이를 잡고 섭니다.",
+"케이블은 맨 아래에서도 장력이 걸립니다. 팔이 몸에 붙는 지점까지 힘을 빼지 마세요.",
+"몸을 옆으로 기울여 반동을 쓰면 무게만 늘고 자극은 줄어듭니다. 기둥을 잡아 상체를 고정하세요.",
+"한쪽이 끝나면 쉬지 말고 반대쪽으로. 타는 느낌이 어깨가 아니라 목으로 올라오면 무게를 낮추세요."
+],
+"밴드 사이드 레터럴 레이즈": [
+"밴드 가운데를 양발로 밟고, 발 간격을 좁히거나 넓혀 저항을 조절합니다.",
+"밴드는 위로 갈수록 무거워집니다. 어깨 높이에서 1초 멈췄다 내리세요.",
+"밴드가 튕겨 내려가면 세트의 절반을 버리는 겁니다. 내리는 데 3초를 쓰세요.",
+"마지막 세트는 발 간격을 조금 넓혀 저항을 올려 보세요. 밴드가 갈라져 있으면 끊어지니 먼저 확인."
+],
+"덤벨 숄더 프레스": [
+"등받이를 세우고 허리를 붙입니다. 덤벨은 무릎에 올렸다가 반동으로 어깨까지 올려 시작하세요.",
+"팔꿈치는 몸 앞 45도. 귀 옆까지 활짝 벌리면 어깨 관절이 끼입니다.",
+"갈비뼈가 들리면서 허리가 젖혀지면 무게가 무겁다는 신호입니다. 배에 힘을 주고 갈비뼈를 닫아두세요.",
+"마지막 세트는 팔을 완전히 펴지 않고 살짝 남겨 긴장을 유지하면 자극이 더 오래갑니다."
+],
+"머신 숄더 프레스": [
+"손잡이가 어깨 높이에 오도록 의자를 먼저 맞춥니다. 이 한 번이 세트 전체를 좌우합니다.",
+"등을 등받이에 붙인 채 밀어 올리고, 내릴 때는 귀 높이에서 멈춥니다.",
+"목을 앞으로 빼거나 엉덩이를 들면 무게가 어깨를 벗어납니다.",
+"머신은 궤도가 정해져 있어 끝까지 밀어붙여도 안전합니다. 마지막 세트는 한두 개 더 짜내 보세요."
+],
+"파이크 푸시업": [
+"손은 어깨너비, 엉덩이를 최대한 높이 들어 몸을 역V자로 만듭니다.",
+"정수리가 손보다 앞쪽 바닥으로 내려가야 어깨에 실립니다.",
+"팔꿈치가 옆으로 활짝 벌어지면 가슴 운동이 됩니다. 45도로 유지하세요.",
+"쉬워지면 발을 의자에 올려 각도를 세웁니다. 마지막 세트에서 한번 시도해 보세요."
+],
+"덤벨 와이드 업라이트 로우": [
+"손을 어깨너비보다 넓게 잡습니다. 좁게 잡을수록 어깨 앞이 끼입니다.",
+"팔꿈치가 손보다 항상 위에 있게, 어깨 높이까지만 올립니다.",
+"어깨 앞에서 걸리는 느낌이나 통증이 오면 즉시 멈추고 레터럴 레이즈로 바꾸세요.",
+"마지막 세트는 무게를 줄이고 가동 범위를 정확히 지키는 데 쓰세요."
+],
+"케이블 페이스 풀": [
+"도르래를 얼굴보다 조금 높게 맞추고, 로프를 잡고 두 걸음 물러나 장력을 겁니다.",
+"손이 이마 옆을 지나가게 당기고, 마지막에 어깨를 뒤로 돌려 잠급니다.",
+"팔로만 당기면 이두만 씁니다. 팔꿈치를 뒤로 보낸다고 생각하세요.",
+"가벼운 무게로 1초씩 멈추는 편이 훨씬 낫습니다. 라운드 숄더 교정에도 이 종목이 핵심입니다."
+],
+"밴드 페이스 풀": [
+"밴드를 문 위나 기둥에 얼굴 높이로 걸고, 장력이 걸릴 때까지 물러납니다.",
+"목은 길게 뽑고 턱을 당긴 채 얼굴 옆으로 당깁니다.",
+"어깨가 귀 쪽으로 솟으면 승모근이 가져갑니다. 어깨를 내린 채 시작하세요.",
+"밴드는 다 당긴 지점이 가장 무겁습니다. 마지막 세트는 그 자리에서 2초씩 버티기."
+],
+"리버스 펙덱": [
+"손잡이가 어깨 높이에 오게 의자를 맞추고 가슴을 패드에 붙입니다.",
+"팔을 거의 편 채 반원을 그리며 옆으로만 벌립니다.",
+"팔꿈치를 접었다 폈다 하면 삼두 운동이 됩니다. 각도를 고정하세요.",
+"뒤쪽 어깨는 회복이 빠릅니다. 마지막 세트는 반복 수를 20까지 올려도 좋습니다."
+],
+"벤트오버 리어 델트 레이즈": [
+"벤치 끝에 앉아 상체를 허벅지에 붙이듯 숙이고, 덤벨을 종아리 뒤에서 잡습니다.",
+"가슴을 편 상태를 유지한 채 팔을 옆으로만 벌립니다. 뒤로 젖히지 마세요.",
+"상체가 세워지면 승모근으로 넘어갑니다. 숙인 각도를 끝까지 지키세요.",
+"이 부위는 무게 욕심이 가장 안 통합니다. 마지막 세트는 오히려 무게를 낮추세요."
+],
+"덤벨 슈러그": [
+"덤벨을 몸 옆에 자연스럽게 들고, 팔은 그냥 걸어두는 고리라고 생각합니다.",
+"어깨를 귀 쪽으로 곧게 올렸다 1초 멈추고 천천히 내립니다.",
+"어깨를 빙글 돌리지 마세요. 회전은 관절에 부담만 주고 승모근에는 도움이 안 됩니다.",
+"마지막 세트는 맨 위에서 3초씩 버티면 무게를 안 올려도 자극이 세집니다."
+],
+"엎드려 Y 레이즈": [
+"바닥에 엎드려 이마를 대고 팔을 머리 위로 Y자로 벌립니다. 엄지는 천장을 봅니다.",
+"어깨를 먼저 아래로 내린 다음 팔을 들어 올립니다.",
+"목을 젖히며 반동을 쓰면 허리만 씁니다. 시선은 계속 바닥에 두세요.",
+"무게 없이도 충분한 종목입니다. 마지막 세트는 맨 위에서 2초씩 멈추세요."
+],
+"랫 풀다운": [
+"허벅지 패드를 조여 몸이 뜨지 않게 고정하고, 어깨너비보다 조금 넓게 잡습니다.",
+"상체를 살짝만 뒤로 눕히고 명치 쪽으로 당깁니다. 팔꿈치를 아래로 내린다는 느낌으로.",
+"목 뒤로 당기는 방식은 어깨 부상 위험이 커서 권하지 않습니다. 항상 몸 앞으로.",
+"올릴 때 팔을 끝까지 펴서 등을 늘려 주세요. 마지막 세트는 이 늘어남을 3초로."
+],
+"풀업 (필요하면 밴드 보조)": [
+"어깨너비보다 조금 넓게 잡고 매달립니다. 어깨를 먼저 아래로 내려 견갑을 고정하세요.",
+"턱이 아니라 가슴을 봉으로 보낸다고 생각하면 등이 훨씬 잘 쓰입니다.",
+"다리를 차서 올라가면 개수만 늘고 등은 안 큽니다. 밴드를 걸고 정직하게 하세요.",
+"마지막 세트는 못 올라가더라도 내려오는 동작만 5초씩 3회. 이게 다음 주 개수를 늘립니다."
+],
+"원암 덤벨 로우": [
+"한 손과 한 무릎을 벤치에 올리고 등을 평평한 책상처럼 만듭니다.",
+"팔꿈치를 골반 쪽으로 끌어당기고 맨 위에서 1초 멈춥니다.",
+"허리를 비틀어 무게를 올리면 등이 아니라 허리가 일합니다. 양 어깨 높이를 수평으로 유지하세요.",
+"내릴 때 어깨가 앞으로 쭉 늘어나게 두면 가동 범위가 커집니다. 마지막 세트에 꼭 챙기세요."
+],
+"시티드 케이블 로우": [
+"무릎을 살짝 굽히고 발판을 밀어 상체를 세웁니다. 등은 곧게.",
+"몸통은 고정한 채 어깨뼈를 뒤로 모았다 폅니다. 팔은 그다음입니다.",
+"상체를 앞뒤로 흔들면 허리 운동이 됩니다. 무게를 낮추고 몸통을 세우세요.",
+"앞으로 뻗을 때 어깨를 충분히 늘려 주세요. 마지막 세트는 늘어난 지점에서 2초."
+],
+"인버티드 로우": [
+"봉을 허리 높이로 맞추고 아래에 누워 매달립니다. 어깨너비보다 넓게 잡으세요.",
+"발뒤꿈치부터 머리까지 판자처럼 유지한 채 가슴을 봉으로 당깁니다.",
+"엉덩이가 처지면 등 대신 허리가 버팁니다. 배에 힘을 주세요.",
+"쉬우면 발을 의자에 올려 몸을 더 눕힙니다. 마지막 세트에 난이도를 올려 보세요."
+],
+"밴드 랫 풀다운": [
+"밴드를 문 위에 단단히 고정하고 무릎을 꿇어 상체를 살짝 앞으로 기울입니다.",
+"팔꿈치를 옆구리로 내린다는 느낌으로 당기고 아래에서 1초 멈춥니다.",
+"상체를 뒤로 눕혀 당기면 로우가 됩니다. 각도를 유지하세요.",
+"밴드는 다 당긴 곳이 가장 무겁습니다. 마지막 세트는 그 지점에서 2초씩 버티세요."
+],
+"덤벨 풀오버": [
+"벤치에 어깨만 걸치거나 가로로 누워, 덤벨을 양손으로 감싸 쥡니다.",
+"팔을 거의 편 채 머리 뒤로 넘기고, 가슴이 늘어나는 지점까지만 갑니다.",
+"갈비뼈가 들리면 허리가 젖혀집니다. 배에 힘을 주고 갈비뼈를 닫아두세요.",
+"가동 범위 욕심이 어깨를 다치게 합니다. 마지막 세트일수록 범위를 줄이세요."
+],
+"인클라인 덤벨 프레스": [
+"등받이를 30도로. 45도가 넘어가면 사실상 어깨 운동이 됩니다.",
+"쇄골 바로 아래로 내렸다가 밀어 올립니다. 맨 위에서 덤벨끼리 부딪히지 마세요.",
+"팔꿈치가 어깨선 뒤로 넘어가면 어깨 앞이 다칩니다. 몸통과 45~60도를 유지하세요.",
+"마지막 세트는 무릎으로 덤벨을 받쳐 안전하게 내려놓는 것까지가 세트입니다."
+],
+"푸시업": [
+"손은 가슴 높이, 어깨너비보다 조금 넓게. 머리부터 발끝까지 한 줄로 만듭니다.",
+"가슴이 주먹 하나 높이까지 내려가야 한 개로 칩니다.",
+"엉덩이가 솟거나 처지면 가슴에 안 실립니다. 배와 엉덩이에 힘을 주세요.",
+"쉬우면 발을 올리거나 내려가는 데 3초를 쓰세요. 마지막 세트에서 시험해 보세요."
+],
+"발 올린 디클라인 푸시업": [
+"발을 의자나 벤치에 올립니다. 높을수록 가슴 위쪽과 어깨에 실립니다.",
+"손목이 아프면 덤벨을 잡고 하거나 주먹을 쥐고 하세요.",
+"목을 앞으로 빼면 허리가 꺾입니다. 시선은 손보다 약간 앞 바닥에.",
+"마지막 세트는 맨 아래에서 1초 멈췄다 올라오면 반동이 사라집니다."
+],
+"케이블 플라이": [
+"도르래를 머리 위로 올리고 한 발을 앞으로 내밀어 균형을 잡습니다.",
+"팔꿈치 각도를 고정한 채 큰 원을 그리며 명치 앞에서 모읍니다.",
+"팔을 접었다 폈다 하면 프레스가 됩니다. 각도를 끝까지 고정하세요.",
+"모은 지점에서 1~2초 조여 주세요. 마지막 세트에서 이게 차이를 만듭니다."
+],
+"덤벨 플라이": [
+"가벼운 무게로 시작하세요. 이 종목은 무게를 올릴수록 어깨만 위험해집니다.",
+"팔꿈치를 살짝 굽힌 채 가슴이 늘어나는 지점까지만 벌립니다.",
+"어깨 앞이 찌릿하면 너무 내린 겁니다. 범위를 줄이세요.",
+"마지막 세트는 플라이로 시작해 힘들어지면 프레스로 바꿔 몇 개 더 해도 좋습니다."
+],
+"머신 체스트 프레스": [
+"손잡이가 가슴 중앙 높이에 오도록 의자를 맞춥니다.",
+"어깨뼈를 뒤로 모아 등받이에 붙인 채 밀어냅니다.",
+"어깨가 앞으로 말리면 가슴이 아니라 어깨 앞이 일합니다.",
+"머신은 힘이 다 빠질 때까지 밀어붙여도 안전합니다. 마지막 세트를 가장 세게."
+],
+"인클라인 덤벨 컬": [
+"등받이를 45~60도로 눕히고 팔을 몸 뒤로 늘어뜨립니다. 이 늘어남이 이 종목의 전부입니다.",
+"팔꿈치를 그 자리에 둔 채 팔뚝만 올립니다.",
+"팔꿈치가 앞으로 딸려 오면 어깨 운동이 됩니다. 등받이에 붙여두세요.",
+"늘어난 아래 지점을 서두르지 마세요. 마지막 세트는 내리는 데 3초."
+],
+"해머 컬": [
+"손등이 바깥을 보게 세워 잡습니다. 팔뚝 두께를 만드는 잡는 법입니다.",
+"팔꿈치를 옆구리에 붙이고 손목을 고정한 채 올립니다.",
+"상체를 뒤로 젖히며 반동을 쓰면 허리만 씁니다. 벽에 등을 대고 해 보세요.",
+"마지막 세트는 양팔로 하다가 힘들면 한 팔씩 번갈아 몇 개 더 짜내세요."
+],
+"바벨 컬": [
+"어깨너비로 잡고 팔꿈치를 옆구리에 고정합니다.",
+"손목을 젖히지 말고 곧게 유지한 채 올립니다.",
+"반동이 나오는 순간 이두는 쉬고 허리가 일합니다. 무게를 줄이세요.",
+"손목이 아프면 EZ바로 바꾸세요. 마지막 세트는 절반 범위 반복으로 마무리해도 좋습니다."
+],
+"밴드 컬": [
+"밴드를 양발로 밟고 어깨너비로 서서 손잡이를 잡습니다.",
+"밴드는 무게가 부족한 대신 시간을 쓸 수 있습니다. 맨 위에서 2초 조이세요.",
+"밴드가 튕겨 내려가면 절반을 버리는 겁니다. 내리는 데 3초.",
+"마지막 세트는 발 간격을 넓혀 저항을 올리거나 반복 수를 20까지 늘리세요."
+],
+"친업 (손등이 뒤로)": [
+"어깨너비로, 손바닥이 나를 향하게 잡습니다. 풀업보다 이두가 많이 붙습니다.",
+"턱이 아니라 쇄골을 봉 쪽으로 보내세요.",
+"어깨가 귀에 붙은 채 올라가면 팔만 씁니다. 어깨를 먼저 내리세요.",
+"마지막 세트는 매달려 버티기 20초로 마무리해도 좋습니다."
+],
+"컨센트레이션 컬": [
+"벤치에 앉아 팔꿈치를 허벅지 안쪽에 대고 고정합니다.",
+"한 팔씩, 맨 위에서 이두를 1초 조입니다.",
+"몸을 비틀어 올리면 고정한 의미가 없어집니다. 상체를 멈춰두세요.",
+"무게보다 조이는 느낌이 중요한 종목입니다. 마지막 세트는 가볍게 개수를 늘리세요."
+],
+"오버헤드 덤벨 익스텐션": [
+"등받이 있는 의자에 앉아 덤벨을 양손으로 감싸 머리 위로 듭니다.",
+"팔꿈치를 귀 옆에 고정한 채 뒤로 내렸다가 폅니다.",
+"팔꿈치가 옆으로 벌어지면 삼두 장두가 빠집니다. 좁게 유지하세요.",
+"무거운 덤벨을 혼자 들어 올리다 어깨를 다칩니다. 마지막 세트는 무릎으로 받쳐 시작하세요."
+],
+"케이블 푸시다운": [
+"팔꿈치를 옆구리에 붙이고 상체를 살짝만 기울입니다.",
+"아래에서 완전히 편 채 1초 멈춥니다. 여기가 자극의 대부분입니다.",
+"팔꿈치가 앞뒤로 움직이면 등 운동이 섞입니다. 옆구리에 붙여두세요.",
+"마지막 세트는 무게를 줄이고 반복 수를 20까지 올려 태우세요."
+],
+"딥스 (벤치 딥스로 대체 가능)": [
+"손으로 바를 잡고 팔을 편 채 몸을 세웁니다. 상체가 설수록 삼두에 실립니다.",
+"팔꿈치가 90도가 될 때까지만 내립니다.",
+"어깨가 귀 아래로 푹 꺼지면 어깨 관절이 위험합니다. 어깨를 아래로 눌러 고정하세요.",
+"힘들면 벤치 딥스나 밴드 보조로 바꾸세요. 마지막 세트는 내려오는 동작만 천천히."
+],
+"다이아몬드 푸시업": [
+"엄지와 검지로 삼각형을 만들어 가슴 아래에 둡니다.",
+"팔꿈치를 몸통에 붙인 채 내렸다 밀어 올립니다.",
+"손목이 아프면 손 간격을 조금 벌리세요. 완전한 삼각형일 필요는 없습니다.",
+"무릎을 대면 난이도가 확 낮아집니다. 마지막 세트에 무릎으로 몇 개 더."
+],
+"밴드 푸시다운": [
+"밴드를 문 위나 높은 곳에 걸고 팔꿈치를 옆구리에 붙입니다.",
+"아래에서 완전히 펴고 2초 멈춥니다.",
+"상체를 앞으로 숙여 체중을 실으면 밴드가 아니라 몸무게로 하는 겁니다.",
+"마지막 세트는 개수를 세지 말고 팔이 안 펴질 때까지 하세요."
+],
+"스컬 크러셔": [
+"EZ바를 어깨너비보다 좁게 잡고 눕습니다. 바는 이마 위가 아니라 머리 뒤쪽으로 내립니다.",
+"팔꿈치 위치를 고정한 채 팔뚝만 접었다 폅니다.",
+"팔꿈치가 벌어지면 가슴으로 넘어갑니다. 좁게 유지하세요.",
+"팔꿈치가 아프면 무게를 줄이거나 오버헤드 익스텐션으로 바꾸세요."
+],
+"행잉 니 레이즈": [
+"봉에 매달려 어깨를 아래로 내리고 골반을 살짝 말아 넣습니다.",
+"무릎을 가슴까지 끌어올리고 맨 위에서 1초 멈춥니다.",
+"몸이 앞뒤로 흔들리면 반동으로 하는 겁니다. 내릴 때를 3초로 늦추세요.",
+"쉬우면 다리를 펴서 올립니다. 마지막 세트에 시도해 보세요."
+],
+"플랭크": [
+"팔꿈치를 어깨 바로 아래에 두고 발끝으로 버팁니다.",
+"엉덩이를 살짝 말아 넣으면 허리가 훨씬 편합니다.",
+"허리가 꺼지거나 엉덩이가 솟는 순간 그 세트는 끝난 겁니다. 시간을 채우려 버티지 마세요.",
+"3분 버티기보다 40초를 정확히 하는 쪽이 낫습니다."
+],
+"애브 휠 롤아웃": [
+"무릎을 꿇고 휠을 어깨 아래에 둡니다. 매트를 깔면 무릎이 편합니다.",
+"허리가 꺼지기 직전까지만 굴려 나갑니다. 끝까지 갈 필요 없습니다.",
+"허리가 아프면 이미 너무 멀리 나간 겁니다. 범위를 절반으로 줄이세요.",
+"벽 앞에서 하면 안전합니다. 마지막 세트는 범위를 줄이고 개수를 채우세요."
+],
+"데드버그": [
+"누워서 무릎과 고관절을 90도로 세우고 팔을 천장으로 뻗습니다.",
+"숨을 내쉬어 갈비뼈를 내리고 허리를 바닥에 붙인 채 시작합니다.",
+"허리와 바닥 사이가 뜨면 코어가 진 겁니다. 팔다리를 덜 뻗으세요.",
+"반대쪽 팔다리를 동시에 천천히. 마지막 세트는 3초씩 세면서 하세요."
+],
+"사이드 플랭크": [
+"팔꿈치를 어깨 바로 아래에 두고 몸을 옆으로 세워 일직선을 만듭니다.",
+"골반을 천장 쪽으로 밀어 올린 채 유지합니다.",
+"골반이 뒤로 빠지면 옆구리가 안 씁니다. 어려우면 무릎을 대고 하세요.",
+"양쪽 시간을 똑같이 채우세요. 한쪽만 하면 좌우 차이가 생깁니다."
+],
+"케이블 크런치": [
+"도르래 아래에 무릎을 꿇고 로프를 얼굴 옆에 붙여 잡습니다.",
+"골반은 고정한 채 갈비뼈를 골반 쪽으로 말아 내립니다.",
+"엉덩이를 뒤로 빼면 등 운동이 됩니다. 고관절 각도를 유지하세요.",
+"팔로 당기지 않도록 손을 머리에 붙여두세요. 마지막 세트는 맨 아래에서 2초."
+],
+"고블릿 스쿼트": [
+"덤벨이나 케틀벨을 가슴에 붙여 안고 발을 어깨너비로 벌립니다.",
+"상체를 세운 채 앉고, 맨 아래에서 팔꿈치로 무릎을 바깥으로 밀어 줍니다.",
+"뒤꿈치가 뜨면 발목이 뻣뻣한 겁니다. 발을 조금 더 벌려 보세요.",
+"앞에 든 무게가 상체를 세워 줍니다. 스쿼트 자세를 익히기에 가장 좋은 종목입니다."
+],
+"바벨 백 스쿼트": [
+"안전바 높이를 먼저 맞추세요. 바는 승모근 위에 올리고 손으로 단단히 조입니다.",
+"숨을 들이마시고 배에 힘을 준 채 앉습니다. 발끝과 무릎 방향을 맞추세요.",
+"무릎이 안으로 모이면 무겁다는 뜻입니다. 무릎을 바깥으로 밀어내세요.",
+"혼자 할 때는 안전바를 꼭 걸어두세요. 마지막 세트일수록 자세가 먼저 무너집니다."
+],
+"불가리안 스플릿 스쿼트": [
+"뒷발을 벤치에 올리고 앞발을 충분히 앞으로 내딛습니다. 좁으면 무릎이 아픕니다.",
+"앞다리로만 버티며 내려가고, 앞 무릎이 발 방향과 같게 유지합니다.",
+"뒷발로 밀어내면 의미가 없습니다. 뒷발은 균형용입니다.",
+"한쪽이 끝나면 쉬지 말고 반대쪽으로. 다리가 떨리는 건 정상입니다."
+],
+"루마니안 데드리프트": [
+"바를 허벅지 앞에 두고 무릎을 살짝 굽힌 채 그 각도로 고정합니다.",
+"무릎 각도를 그대로 두고 엉덩이만 뒤로 밀어냅니다. 바는 다리를 스치듯 내려갑니다.",
+"등이 둥글게 말리면 즉시 멈추세요. 햄스트링이 당기는 지점이 내려갈 수 있는 끝입니다.",
+"마지막 세트는 무게보다 범위입니다. 무릎 아래까지만 내려도 충분합니다."
+],
+"힙 쓰러스트": [
+"벤치에 어깨뼈를 걸치고 바를 골반 위에 올립니다. 패드를 꼭 쓰세요.",
+"턱을 당긴 채 발로 바닥을 밀어 골반만 천장으로 올립니다.",
+"허리를 젖혀 올리면 엉덩이가 아니라 허리가 일합니다. 갈비뼈를 닫아두세요.",
+"맨 위에서 1초 조이는 게 무게보다 중요합니다. 마지막 세트는 2초씩."
+],
+"공중 런지 · 점프 스쿼트": [
+"발을 어깨너비로 두고 팔을 가슴 앞에 모읍니다.",
+"허벅지가 바닥과 나란해질 때까지 앉았다가 앞꿈치로 밀어 뛰어오릅니다.",
+"착지 소리가 크면 무릎으로 받는 겁니다. 무릎과 고관절을 부드럽게 접어 흡수하세요.",
+"지치면 자세가 먼저 무너지는 종목입니다. 마지막 세트는 개수를 줄여도 좋습니다."
+],
+"레그 프레스": [
+"발을 발판 가운데에 어깨너비로. 안전 잠금장치를 먼저 확인하세요.",
+"무릎이 90도쯤까지 내려오게 하고, 완전히 펴지 않은 채 되밀어 올립니다.",
+"무릎을 끝까지 펴서 잠그면 관절에 부담이 갑니다. 살짝 남기세요.",
+"엉덩이가 시트에서 들리면 너무 깊이 내린 겁니다. 마지막 세트에 특히 조심하세요."
+],
+"월 싯": [
+"벽에 등을 붙이고 허벅지가 바닥과 나란해질 때까지 미끄러져 내려갑니다.",
+"무릎이 발목 바로 위에 오게 하세요. 앞으로 나가면 무릎이 아픕니다.",
+"손으로 허벅지를 짚으면 난이도가 떨어집니다. 팔은 가슴 앞에 모으세요.",
+"시간을 채우기보다 자세가 유지되는 만큼만. 허벅지가 떨리는 건 정상입니다."
+]
+};
+const tipFor=(n,i,fb)=>(TIPS[n]&&TIPS[n][i%4])||fb;
+
+/* 실제 동작 사진 — Free Exercise DB (Unlicense / 퍼블릭 도메인)
+   각 종목마다 0.jpg = 시작 자세, 1.jpg = 끝 자세 */
+const IMGBASE="img/";
+const IMG={
+"덤벨 사이드 레터럴 레이즈":"Side_Lateral_Raise",
+"케이블 사이드 레터럴 레이즈":"Cable_Seated_Lateral_Raise",
+"덤벨 숄더 프레스":"Dumbbell_Shoulder_Press",
+"머신 숄더 프레스":"Smith_Machine_Overhead_Shoulder_Press",
+"덤벨 와이드 업라이트 로우":"Standing_Dumbbell_Upright_Row",
+"밴드 사이드 레터럴 레이즈":"Lateral_Raise_-_With_Bands",
+"케이블 페이스 풀":"Face_Pull",
+"리버스 펙덱":"Reverse_Machine_Flyes",
+"벤트오버 리어 델트 레이즈":"Seated_Bent-Over_Rear_Delt_Raise",
+"덤벨 슈러그":"Dumbbell_Shrug",
+"랫 풀다운":"Wide-Grip_Lat_Pulldown",
+"풀업 (필요하면 밴드 보조)":"Pullups",
+"원암 덤벨 로우":"One-Arm_Dumbbell_Row",
+"시티드 케이블 로우":"Seated_Cable_Rows",
+"인버티드 로우":"Inverted_Row",
+"덤벨 풀오버":"Straight-Arm_Dumbbell_Pullover",
+"인클라인 덤벨 프레스":"Incline_Dumbbell_Press",
+"푸시업":"Pushups",
+"발 올린 디클라인 푸시업":"Decline_Push-Up",
+"케이블 플라이":"Cable_Crossover",
+"덤벨 플라이":"Dumbbell_Flyes",
+"머신 체스트 프레스":"Leverage_Chest_Press",
+"인클라인 덤벨 컬":"Incline_Dumbbell_Curl",
+"해머 컬":"Hammer_Curls",
+"바벨 컬":"Barbell_Curl",
+"친업 (손등이 뒤로)":"Chin-Up",
+"컨센트레이션 컬":"Concentration_Curls",
+"오버헤드 덤벨 익스텐션":"Seated_Triceps_Press",
+"케이블 푸시다운":"Triceps_Pushdown",
+"딥스 (벤치 딥스로 대체 가능)":"Dips_-_Triceps_Version",
+"다이아몬드 푸시업":"Close-Grip_Push-Up_off_of_a_Dumbbell",
+"스컬 크러셔":"EZ-Bar_Skullcrusher",
+"행잉 니 레이즈":"Hanging_Leg_Raise",
+"플랭크":"Plank",
+"애브 휠 롤아웃":"Ab_Roller",
+"데드버그":"Dead_Bug",
+"사이드 플랭크":"Side_Bridge",
+"케이블 크런치":"Cable_Crunch",
+"고블릿 스쿼트":"Goblet_Squat",
+"바벨 백 스쿼트":"Barbell_Squat",
+"불가리안 스플릿 스쿼트":"Split_Squat_with_Dumbbells",
+"루마니안 데드리프트":"Romanian_Deadlift",
+"힙 쓰러스트":"Barbell_Hip_Thrust",
+"공중 런지 · 점프 스쿼트":"Freehand_Jump_Squat",
+"레그 프레스":"Leg_Press"
+};
+/* 사진이 안 뜨면 그 자리에 핏맨 그림으로 대체 */
+window.figFail=(img,k,w)=>{
+  const box=img.parentElement;
+  box.classList.add("fallback");
+  box.innerHTML=(k&&POSE[k])?figure(k,w):`<div class="nofig">사진 없음</div>`;
+};
+function framesHTML(name){
+  const k=patOf(name), id=IMG[name];
+  if(id){
+    const shot=(i,cap,w)=>`<div class="frame"><figure>
+      <div class="ph"><img src="${IMGBASE}${id}_${i}.jpg" alt="${name} ${cap}" loading="lazy"
+        onerror="figFail(this,'${k||""}','${w}')"></div>
+      <figcaption>${cap}</figcaption></figure></div>`;
+    return `<div class="frames photo">${shot(0,"START","A")}<div class="go">▶</div>${shot(1,"FINISH","B")}</div>`;
+  }
+  if(!k) return '';
+  const P0=POSE[k];
+  if(P0.hold) return `<div class="frames" style="max-width:60%;margin:0 auto">
+    <div class="frame"><figure>${figure(k,'A')}<figcaption>HOLD</figcaption></figure></div></div>`;
+  return `<div class="frames">
+    <div class="frame"><figure>${figure(k,'A')}<figcaption>START</figcaption></figure></div>
+    <div class="go">▶</div>
+    <div class="frame"><figure>${figure(k,'B')}<figcaption>FINISH</figcaption></figure></div></div>`;
+}
+function demoHTML(name,cfg,reps){
+  const fr=framesHTML(name); if(!fr) return '';
+  const w=cfg?weightFor(name,cfg,reps,false):"";
+  const tips=(TIPS[name]||[]).map((t,i)=>
+    `<li><b>SET ${i+1} · ${TIPSTAGE[i]}</b>${t}</li>`).join("");
+  return `<div class="demo" hidden>${fr}
+    ${w?`<div class="demo-load">이 동작 추천 중량 <b>${w}</b></div>`:""}
+    ${tips?`<ol class="tiplist">${tips}</ol>`:""}</div>`;
+}
+
+/* ── 운동 데이터 ───────────────────────────── */
+const P={
+delt:[
+ {n:"덤벨 사이드 레터럴 레이즈",e:["gym","db"],c:"팔꿈치를 살짝 굽힌 채 어깨 높이까지. 반동으로 튕기면 승모근이 대신 일합니다."},
+ {n:"케이블 사이드 레터럴 레이즈",e:["gym"],c:"몸 뒤쪽에서 출발해 끝까지 긴장을 놓지 않습니다."},
+ {n:"밴드 사이드 레터럴 레이즈",e:["bw"],c:"밴드를 발로 밟고 서서, 내릴 때를 더 천천히."},
+ {n:"덤벨 숄더 프레스",e:["gym","db"],c:"팔꿈치를 몸 앞 45도에 두고 갈비뼈는 닫아둡니다."},
+ {n:"머신 숄더 프레스",e:["gym"],c:"손잡이가 어깨 높이에 오도록 의자를 먼저 맞춥니다."},
+ {n:"파이크 푸시업",e:["bw"],c:"엉덩이를 높이 들고 정수리가 손보다 앞으로 내려가게."},
+ {n:"덤벨 와이드 업라이트 로우",e:["gym","db"],c:"어깨 높이까지만. 어깨 앞이 결리면 바로 멈춥니다."}
+],
+rear:[
+ {n:"케이블 페이스 풀",e:["gym"],c:"손이 이마 옆으로 지나가게, 마지막에 어깨를 뒤로 잠급니다."},
+ {n:"밴드 페이스 풀",e:["bw"],c:"문고리에 걸고 얼굴 높이로. 목은 길게 뽑아둡니다."},
+ {n:"리버스 펙덱",e:["gym"],c:"팔을 곧게 편 채 옆으로만 벌립니다."},
+ {n:"벤트오버 리어 델트 레이즈",e:["gym","db"],c:"가슴을 편 상태에서 상체를 숙이고 팔을 옆으로."},
+ {n:"덤벨 슈러그",e:["gym","db"],c:"어깨를 귀 쪽으로 올린 뒤 1초 멈췄다 내립니다."},
+ {n:"엎드려 Y 레이즈",e:["bw"],c:"바닥에 엎드려 엄지를 위로 향한 채 Y자로 들어 올립니다."}
+],
+lat:[
+ {n:"랫 풀다운",e:["gym"],c:"상체를 세우고 명치 쪽으로. 팔이 아니라 팔꿈치를 내린다고 생각하세요."},
+ {n:"풀업 (필요하면 밴드 보조)",e:["gym","bw"],c:"어깨를 먼저 아래로 내린 다음 팔꿈치를 주머니로 당깁니다."},
+ {n:"원암 덤벨 로우",e:["gym","db"],c:"허리를 비틀지 말고 팔꿈치를 골반 쪽으로."},
+ {n:"시티드 케이블 로우",e:["gym"],c:"몸통은 고정, 어깨뼈를 뒤로 모았다 폅니다."},
+ {n:"인버티드 로우",e:["bw"],c:"철봉이나 튼튼한 책상 아래에서 몸을 판자처럼 유지합니다."},
+ {n:"밴드 랫 풀다운",e:["bw"],c:"무릎을 꿇고 밴드를 문 위에 고정해 당깁니다."},
+ {n:"덤벨 풀오버",e:["gym","db"],c:"갈비뼈가 들리지 않는 범위까지만 넘깁니다."}
+],
+chest:[
+ {n:"인클라인 덤벨 프레스",e:["gym","db"],c:"등받이 30도. 쇄골 바로 아래가 뻐근하면 각도가 맞습니다."},
+ {n:"푸시업",e:["bw"],c:"손은 가슴 높이, 머리부터 발끝까지 한 줄로."},
+ {n:"발 올린 디클라인 푸시업",e:["bw"],c:"발을 의자에 올려 가슴 위쪽에 더 실립니다."},
+ {n:"케이블 플라이",e:["gym"],c:"팔을 크게 원 그리며 명치 위에서 모읍니다."},
+ {n:"덤벨 플라이",e:["gym","db"],c:"팔꿈치 각도를 끝까지 고정한 채 벌렸다 모읍니다."},
+ {n:"머신 체스트 프레스",e:["gym"],c:"손잡이가 가슴 중앙 높이에 오게 의자를 조절합니다."}
+],
+bi:[
+ {n:"인클라인 덤벨 컬",e:["gym","db"],c:"팔을 몸 뒤에 늘어뜨린 채 시작해 이두 장두를 길게 씁니다."},
+ {n:"해머 컬",e:["gym","db"],c:"팔뚝 두께용. 손목을 세운 채 고정합니다."},
+ {n:"바벨 컬",e:["gym"],c:"팔꿈치를 옆구리에 붙이고 상체 반동 없이."},
+ {n:"밴드 컬",e:["bw"],c:"끝에서 2초 멈춰 부족한 무게를 시간으로 채웁니다."},
+ {n:"친업 (손등이 뒤로)",e:["gym","bw"],c:"턱이 아니라 쇄골을 봉 쪽으로 보냅니다."},
+ {n:"컨센트레이션 컬",e:["gym","db"],c:"팔꿈치를 허벅지 안쪽에 대고 한 팔씩."}
+],
+tri:[
+ {n:"오버헤드 덤벨 익스텐션",e:["gym","db"],c:"팔꿈치를 귀 옆에 고정. 소매를 채우는 삼두 장두 운동입니다."},
+ {n:"케이블 푸시다운",e:["gym"],c:"팔꿈치를 몸통에 붙이고 아래에서 1초 멈춥니다."},
+ {n:"딥스 (벤치 딥스로 대체 가능)",e:["gym","bw"],c:"상체를 세울수록 삼두에 더 실립니다."},
+ {n:"다이아몬드 푸시업",e:["bw"],c:"엄지와 검지로 삼각형. 팔꿈치는 몸통에 붙입니다."},
+ {n:"밴드 푸시다운",e:["bw"],c:"밴드를 문 위에 걸고 팔꿈치 고정."},
+ {n:"스컬 크러셔",e:["gym","db"],c:"이마 옆으로 내렸다가 팔꿈치만 폅니다."}
+],
+core:[
+ {n:"행잉 니 레이즈",e:["gym","bw"],c:"흔들리지 않게 매달려 무릎을 가슴까지."},
+ {n:"플랭크",e:["gym","db","bw"],c:"엉덩이를 살짝 말아 넣으면 허리가 편합니다."},
+ {n:"애브 휠 롤아웃",e:["gym"],c:"허리가 꺼지기 직전까지만 굴립니다."},
+ {n:"데드버그",e:["gym","db","bw"],c:"허리를 바닥에 붙인 채 팔다리를 반대로."},
+ {n:"사이드 플랭크",e:["gym","db","bw"],c:"옆구리 라인용. 골반이 뒤로 빠지지 않게."},
+ {n:"케이블 크런치",e:["gym"],c:"등을 둥글게 말아 갈비뼈를 골반으로."}
+],
+leg:[
+ {n:"고블릿 스쿼트",e:["gym","db"],c:"덤벨을 가슴에 안고 앉습니다. 상체가 잘 서 있게 도와줍니다."},
+ {n:"바벨 백 스쿼트",e:["gym"],c:"발끝과 무릎 방향을 맞추고 천천히 내려갑니다."},
+ {n:"불가리안 스플릿 스쿼트",e:["gym","db","bw"],c:"뒷발을 의자에 올리고 앞다리로만 버팁니다."},
+ {n:"루마니안 데드리프트",e:["gym","db"],c:"무릎을 살짝 굽힌 채 엉덩이를 뒤로. 햄스트링이 당기면 정지."},
+ {n:"힙 쓰러스트",e:["gym","db"],c:"턱을 당긴 채 골반만 천장으로 밀어 올립니다."},
+ {n:"공중 런지 · 점프 스쿼트",e:["bw"],c:"착지 소리가 작을수록 잘하고 있는 겁니다."},
+ {n:"레그 프레스",e:["gym"],c:"무릎이 안으로 모이지 않게."},
+ {n:"월 싯",e:["bw"],c:"벽에 기대 허벅지가 바닥과 평행하도록 40초."}
+]};
+
+/* ── 중량 계수 ──────────────────────────────
+   r = 남성 1RM ÷ 체중 [이제 시작 / 3개월~2년 / 2년 이상]
+   u = each(한쪽) · total(총) · bw(체중) · band(밴드) / bar:1 = 바벨 종목
+   출처: Strength Level, ExRx, FitnessVolt 기준표 종합 (보수적으로 조정) */
+const WT={
+"덤벨 사이드 레터럴 레이즈":{r:[.08,.17,.26],u:"each",f:.62},
+"케이블 사이드 레터럴 레이즈":{r:[.07,.15,.23],u:"each",f:.62},
+"밴드 사이드 레터럴 레이즈":{u:"band"},
+"덤벨 숄더 프레스":{r:[.13,.25,.36],u:"each",f:.60},
+"머신 숄더 프레스":{r:[.28,.50,.72],u:"total",f:.60},
+"파이크 푸시업":{u:"bw"},
+"덤벨 와이드 업라이트 로우":{r:[.09,.16,.24],u:"each",f:.62},
+"케이블 페이스 풀":{r:[.15,.28,.42],u:"total",f:.65},
+"밴드 페이스 풀":{u:"band"},
+"리버스 펙덱":{r:[.15,.28,.42],u:"total",f:.65},
+"벤트오버 리어 델트 레이즈":{r:[.05,.11,.17],u:"each",f:.65},
+"덤벨 슈러그":{r:[.22,.42,.65],u:"each",f:.70},
+"엎드려 Y 레이즈":{u:"bw"},
+"랫 풀다운":{r:[.45,.75,1.05],u:"total",f:.65},
+"풀업 (필요하면 밴드 보조)":{u:"bw"},
+"원암 덤벨 로우":{r:[.22,.38,.55],u:"each",f:.65},
+"시티드 케이블 로우":{r:[.45,.72,1.00],u:"total",f:.65},
+"인버티드 로우":{u:"bw"},
+"밴드 랫 풀다운":{u:"band"},
+"덤벨 풀오버":{r:[.13,.24,.35],u:"total",f:.62},
+"인클라인 덤벨 프레스":{r:[.18,.32,.46],u:"each",f:.58},
+"푸시업":{u:"bw"},
+"발 올린 디클라인 푸시업":{u:"bw"},
+"케이블 플라이":{r:[.10,.20,.30],u:"each",f:.60},
+"덤벨 플라이":{r:[.10,.18,.27],u:"each",f:.60},
+"머신 체스트 프레스":{r:[.40,.70,1.00],u:"total",f:.58},
+"인클라인 덤벨 컬":{r:[.10,.20,.29],u:"each",f:.60},
+"해머 컬":{r:[.14,.26,.37],u:"each",f:.62},
+"바벨 컬":{r:[.25,.45,.62],u:"total",f:.60,bar:1},
+"밴드 컬":{u:"band"},
+"친업 (손등이 뒤로)":{u:"bw"},
+"컨센트레이션 컬":{r:[.09,.18,.26],u:"each",f:.60},
+"오버헤드 덤벨 익스텐션":{r:[.12,.24,.36],u:"total",f:.60},
+"케이블 푸시다운":{r:[.25,.45,.62],u:"total",f:.62},
+"딥스 (벤치 딥스로 대체 가능)":{u:"bw"},
+"다이아몬드 푸시업":{u:"bw"},
+"밴드 푸시다운":{u:"band"},
+"스컬 크러셔":{r:[.16,.30,.44],u:"total",f:.60,bar:1},
+"행잉 니 레이즈":{u:"bw"},"플랭크":{u:"bw"},"애브 휠 롤아웃":{u:"bw"},
+"데드버그":{u:"bw"},"사이드 플랭크":{u:"bw"},
+"케이블 크런치":{r:[.25,.45,.65],u:"total",f:.65},
+"고블릿 스쿼트":{r:[.18,.32,.48],u:"total",f:.72},
+"바벨 백 스쿼트":{r:[.60,1.10,1.60],u:"total",f:.72,bar:1},
+"불가리안 스플릿 스쿼트":{r:[.10,.22,.34],u:"each",f:.72},
+"루마니안 데드리프트":{r:[.55,1.00,1.45],u:"total",f:.72,bar:1},
+"힙 쓰러스트":{r:[.70,1.30,1.90],u:"total",f:.80,bar:1},
+"공중 런지 · 점프 스쿼트":{u:"bw"},
+"레그 프레스":{r:[1.00,1.80,2.50],u:"total",f:.75},
+"월 싯":{u:"bw"}
+};
+const LVI={a:0,b:1,c:2};
+const roundKg=x=>x<5?Math.round(x*2)/2:x<20?Math.round(x):x<60?Math.round(x/2.5)*2.5:Math.round(x/5)*5;
+const midReps=s=>{const m=s.match(/(\d+)[–-](\d+)/);return m?(+m[1]+ +m[2])/2:12;};
+
+/* 원판 로딩: 20kg 바 기준 한쪽에 끼울 원판 */
+const PLATES=[[25,"#D93A32"],[20,"#3B6BE0"],[15,"#E5B12A"],[10,"#31A05F"],[5,"#DCE0E6"],[2.5,"#B0B7C1"],[1.25,"#8A94A2"]];
+function loadHTML(total){
+  const BAR=20;
+  if(total<BAR+2) return `<div class="load"><span class="side">빈 바 20KG 부터</span></div>`;
+  let side=(total-BAR)/2, out="", left=side;
+  for(const [kg,col] of PLATES){
+    while(left>=kg-0.01){
+      const h=Math.round(16+kg*0.85), w=kg>=10?11:8;
+      out+=`<div class="pl" style="width:${w}px;height:${h}px;background:${col}"></div>`;
+      left=+(left-kg).toFixed(2);
+    }
+  }
+  if(!out) return `<div class="load"><span class="side">빈 바 20KG 부터</span></div>`;
+  return `<div class="load"><span class="barbar"></span>${out}
+    <span class="side">한쪽 ${side}KG × 2 + 바 20KG</span></div>`;
+}
+function weightInfo(name,cfg,reps){
+  const t=WT[name]; if(!t) return {type:"none"};
+  if(t.u==="bw") return {type:"bw"};
+  if(t.u==="band") return {type:"band"};
+  if(!cfg.bw) return {type:"none"};
+  const ref=cfg.sex==="m"?173:160;
+  let d=(cfg.h-ref)/ref; d=Math.max(-.09,Math.min(.09,d));
+  const oneRM=cfg.bw*t.r[LVI[cfg.lv]]*(cfg.sex==="m"?1:t.f)*(1-d*.55);
+  const work=oneRM/(1+midReps(reps)/30);
+  const lo=roundKg(work*.9), hi=roundKg(work*1.12);
+  return {type:"kg", unit:t.u==="each"?"한쪽":"총", rng:lo===hi?`${lo}`:`${lo}~${hi}`,
+          work:roundKg(work), bar:!!t.bar};
+}
+function weightFor(name,cfg,reps,html){
+  const w=weightInfo(name,cfg,reps);
+  if(w.type==="none") return "";
+  if(w.type==="bw") return html?`<span class="tag">LOAD</span>체중으로. 정해진 반복이 쉬워지면 발을 올리거나 더 천천히.`:"체중";
+  if(w.type==="band") return html?`<span class="tag">LOAD</span>밴드 저항으로 조절. 마지막 2~3회가 버거운 밴드를 고릅니다.`:"밴드 저항";
+  if(!html) return `${w.unit} ${w.rng}kg`;
+  return `<span class="tag">${w.unit==="한쪽"?"PER HAND":"TOTAL"}</span><span class="kg">${w.rng}KG</span>
+    부터. 마지막 2~3회가 힘들면 맞는 무게입니다.
+    ${w.bar?loadHTML(w.work):""}`;
+}
+/* 동작 그림 바로 아래에 붙는 중량 카드 */
+function loadCard(name,cfg,reps,big){
+  const w=weightInfo(name,cfg,reps);
+  if(w.type==="none") return big?`<div class="lcard txt">05번에 체중을 넣으면 추천 중량이 여기에 나옵니다</div>`:"";
+  if(w.type==="bw") return `<div class="lcard txt">이 동작은 <b>체중</b>으로 합니다</div>`;
+  if(w.type==="band") return `<div class="lcard txt"><b>밴드 저항</b>으로 조절합니다</div>`;
+  return `<div class="lcard">
+      <span class="lc-l">추천 중량<span>${w.unit}</span></span>
+      <span class="lc-v">${w.rng}<i>KG</i></span>
+    </div>${w.bar?`<div class="lcplates">${loadHTML(w.work)}</div>`:""}`;
+}
+
+/* ── 칼로리 · 단백질 ─────────────────────
+   기초대사량: Mifflin-St Jeor
+   활동계수: 주당 훈련 일수 기준
+   단백질: ISSN 포지션 스탠드 1.4~2.0 g/kg, Morton 2018 메타분석 변곡점 1.6 g/kg,
+           감량 구간에서는 제지방 보존을 위해 상향 */
+const ACT={2:1.375,3:1.45,4:1.55,5:1.65};
+const GOAL_LABEL={keep:"체중 유지",gain:"근육 늘리기",cut:"체지방 줄이기"};
+/* 단백질 급원: [이름, 1단위당 단백질 g, 단위표기, 단위크기] */
+const PROT=[["닭가슴살",23,"g",100],["계란",6,"개",1],["참치캔(100g)",26,"캔",1],
+            ["소고기 우둔살",21,"g",100],["연어",20,"g",100],["두부",8,"g",100],
+            ["그릭요거트",10,"g",100],["프로틴 파우더",24,"스쿱",1],["우유",6.6,"ml",200]];
+const CARB=[["현미밥 한 공기",69],["고구마 200g",62],["오트밀 60g",40],["바나나 1개",27]];
+function portion(need,[nm,per,unit,size]){
+  if(unit==="g"||unit==="ml"){ const q=Math.round(need/per*size/10)*10; return `${nm} ${q}${unit}`; }
+  const q=Math.round(need/per*2)/2; return `${nm} ${q}${unit}`;
+}
+function carbPlan(g){
+  const out=[]; let left=g;
+  const take=(i,max)=>{const [nm,c]=CARB[i]; const n=Math.min(max,Math.floor(left/c));
+    if(n>0){out.push(`${nm} ${n>1?"×"+n:""}`.trim()); left-=n*c;}};
+  take(0,3); take(1,2); take(2,2); take(3,3);
+  if(left>18) out.push("과일 한 조각 더");
+  return out.join(" + ")||"밥 반 공기";
+}
+
+/* ── 칼로리 · 단백질 ─────────────────────
+   기초대사량: Mifflin-St Jeor
+   단백질: ISSN 포지션 스탠드 1.4~2.0 g/kg, Morton 2018 메타분석 변곡점 1.6 g/kg,
+           감량 구간에서는 제지방 보존을 위해 상향 */
+function fuelFor(cfg){
+  if(!cfg.bw||!cfg.age) return null;
+  const bmr=Math.round(10*cfg.bw+6.25*cfg.h-5*cfg.age+(cfg.sex==="m"?5:-161));
+  const tdee=Math.round(bmr*(ACT[cfg.days]||1.45));
+  const teen=cfg.age<19;
+  let cal, note;
+  if(cfg.goal==="gain"){ cal=Math.round(tdee*1.12);
+    note="유지량보다 하루 10% 정도만 더 먹습니다. 이보다 크게 늘리면 늘어나는 건 대부분 근육이 아닙니다. 2주에 체중 0.2~0.4kg씩 오르면 잘 가고 있는 겁니다."; }
+  else if(cfg.goal==="cut"){ cal=Math.round(tdee*(teen?0.92:0.87));
+    if(cal<bmr) cal=bmr;
+    note=teen?"성장기에는 크게 줄이지 않습니다. 먹는 양을 깎기보다 활동량을 늘리는 쪽이 키와 회복에 훨씬 낫습니다."
+             :"주당 체중의 0.5~0.7% 정도만 빠지게 잡은 폭입니다. 더 줄이면 근육과 훈련 강도가 같이 깎입니다."; }
+  else { cal=tdee; note="지금 체중을 유지하면서 훈련의 질을 올리는 구간입니다. 체중이 2주째 그대로면 잘 맞춘 겁니다."; }
+  const pLo=+(cfg.bw*(cfg.goal==="cut"?2.0:1.6)).toFixed(0);
+  const pHi=+(cfg.bw*(teen?(cfg.goal==="cut"?2.2:2.0):(cfg.goal==="cut"?2.4:2.2))).toFixed(0);
+  const pMid=Math.round((pLo+pHi)/2);
+  const fat=Math.max(Math.round(cfg.bw*0.9), Math.round(cal*0.25/9));
+  const carb=Math.max(0,Math.round((cal-pMid*4-fat*9)/4));
+  const water=Math.round(cfg.bw*33/100)/10;
+  return {bmr,tdee,cal,pLo,pHi,pMid,fat,carb,water,note,teen};
+}
+function fuelHTML(cfg){
+  const f=fuelFor(cfg);
+  if(!f) return `<div class="fuel"><h3>FUEL</h3>
+    <p class="fnote">05번에 체중과 나이를 입력하면 하루 칼로리, 단백질, 끼니별 식단이 여기에 나옵니다.</p></div>`;
+  const per=Math.round(f.pMid/4);
+  const opts=PROT.slice(0,6).map(x=>`<span>${portion(per,x)}</span>`).join("");
+  const meals=[
+    ["아침",`${portion(per,PROT[1])} + 오트밀 60g 또는 밥 반 공기`],
+    ["점심",`${portion(per,PROT[0])} + 현미밥 한 공기 + 채소`],
+    ["운동 후",`${portion(per,PROT[7])} + 바나나 1개`],
+    ["저녁",`${portion(per,PROT[3])} + 고구마 200g + 나물·샐러드`]
+  ].map(([k,v])=>`<div class="meal"><b>${k}</b><span>${v}</span></div>`).join("");
+  return `<div class="fuel">
+    <h3>FUEL <em>${GOAL_LABEL[cfg.goal]}</em></h3>
+    <div class="fgrid">
+      <div class="fcell"><div class="lab">DAILY CALORIES</div>
+        <div class="val">${f.cal.toLocaleString()}<small> KCAL</small></div>
+        <div class="sub">기초대사 ${f.bmr.toLocaleString()} · 유지량 ${f.tdee.toLocaleString()}</div></div>
+      <div class="fcell"><div class="lab">PROTEIN</div>
+        <div class="val">${f.pLo}~${f.pHi}<small> G</small></div>
+        <div class="sub">체중 1kg당 ${(f.pLo/cfg.bw).toFixed(1)}~${(f.pHi/cfg.bw).toFixed(1)}g</div></div>
+    </div>
+
+    <div class="fsec"><h4>한 끼에 단백질 ${per}G · 네 번</h4>
+      <p class="fnote" style="margin-top:0">한 번에 몰아 먹는 것보다 3~4시간 간격으로 나누는 쪽이 근육 합성에 유리합니다. 아래는 <b>한 끼를 이것 하나로만</b> 채울 때의 양입니다.</p>
+      <div class="food">${opts}</div>
+    </div>
+
+    <div class="fsec"><h4>하루 식단 예시</h4>
+      ${meals}
+      <p class="fnote">탄수화물 ${f.carb}g은 <b>${carbPlan(f.carb)}</b> 정도면 채워집니다.
+      지방은 최소 ${f.fat}g — 견과 한 줌, 올리브유 한 큰술, 계란 노른자로 자연히 들어옵니다.
+      물은 하루 <b>${f.water}L</b>가 기준입니다.</p>
+    </div>
+
+    <div class="fsec"><h4>타이밍</h4>
+      <div class="supp">
+        <div><b>운동 1~2시간 전</b> · 소화 편한 탄수 위주로. 바나나, 오트밀, 밥. 지방과 식이섬유가 많으면 속이 더부룩합니다.</div>
+        <div><b>운동 직후~2시간</b> · 단백질 30~40g + 탄수. 이른바 골든타임은 과장이지만, 이 타이밍이 챙기기 가장 쉽습니다.</div>
+        <div><b>자기 전</b> · 우유 한 컵이나 그릭요거트. 밤새 아미노산이 천천히 들어갑니다.</div>
+        <div><b>훈련일 전후</b> · 근육은 자는 동안 자랍니다. 7시간 미만으로 며칠 이어지면 무게가 먼저 안 늘어납니다.</div>
+      </div>
+    </div>
+
+    ${f.teen?`<div class="fsec"><h4>성장기라면</h4>
+      <div class="supp"><div>보충제보다 <b>밥·계란·우유</b>가 먼저입니다. 크레아틴을 포함한 보충제는 청소년 대상 근거가 충분하지 않고, 카페인 부스터는 권하지 않습니다. 칼로리를 줄이는 쪽으로는 가지 마세요.</div></div></div>`
+    :`<div class="fsec"><h4>보충제, 순서대로</h4>
+      <div class="supp">
+        <div><b>1. 크레아틴 모노하이드레이트 5g/일</b> · 운동 보충제 중 근거가 가장 많고 값도 쌉니다. 타이밍은 상관없고 매일 먹는 것만 중요합니다.</div>
+        <div><b>2. 프로틴 파우더</b> · 영양학적으로 특별할 건 없고, 위 단백질 목표를 음식만으로 못 채울 때 쓰는 편의 수단입니다.</div>
+        <div><b>3. 카페인 3mg/kg (약 ${Math.round(cfg.bw*3)}mg)</b> · 운동 30~60분 전. 아메리카노 두 잔 정도입니다. 저녁 훈련이면 잠을 방해할 수 있습니다.</div>
+        <div>비타민D·오메가3는 식사가 부실할 때 보험 정도. 그 외 대부분은 돈값을 못 합니다.</div>
+      </div></div>`}
+
+    <p class="fnote">${f.note}</p>
+    <p class="fnote"><b>근거</b> — 칼로리는 Mifflin-St Jeor 공식에 주 ${cfg.days}일 훈련 활동계수를 곱한 값,
+    단백질은 ISSN 포지션 스탠드(1.4~2.0g/kg)와 Morton 2018 메타분석(변곡점 1.6g/kg) 기준입니다.
+    모두 추정치이므로 2주 해보고 체중 변화에 맞춰 조절하세요.</p>
+  </div>`;
+}
+
+const NAME={delt:"어깨",rear:"어깨",lat:"등",chest:"가슴",bi:"팔",tri:"팔",core:"코어",leg:"하체"};
+const COLOR={"어깨":"#3B6BE0","등":"#D93A32","가슴":"#E5B12A","팔":"#31A05F","코어":"#98A2B0","하체":"#7B5CD6"};
+const DAYC=["#3B6BE0","#D93A32","#E5B12A","#31A05F","#7B5CD6"];
+const ISO=["delt","rear","bi","tri"];
+const TPL={
+2:[{t:"어깨 · 가슴 · 삼두",s:["delt","chest","delt","rear","tri","core"]},
+   {t:"등 · 이두 · 하체",s:["lat","lat","rear","bi","leg","core"]}],
+3:[{t:"어깨 집중",s:["delt","delt","rear","rear","tri","core"]},
+   {t:"등 · 이두",s:["lat","lat","rear","bi","bi","core"]},
+   {t:"가슴 · 하체",s:["chest","chest","tri","leg","leg","core"]}],
+4:[{t:"어깨 집중",s:["delt","delt","rear","rear","core"]},
+   {t:"등 · 이두",s:["lat","lat","rear","bi","bi"]},
+   {t:"가슴 · 삼두",s:["chest","chest","tri","tri","delt"]},
+   {t:"하체 · 코어",s:["leg","leg","leg","core","core"]}],
+5:[{t:"어깨 집중",s:["delt","delt","rear","rear","core"]},
+   {t:"등 · 이두",s:["lat","lat","rear","bi","bi"]},
+   {t:"가슴 · 삼두",s:["chest","chest","tri","tri"]},
+   {t:"하체 · 코어",s:["leg","leg","leg","core"]},
+   {t:"약점 보강",s:["delt","rear","core"]}]
+};
+const EM={shoulder:["delt","rear"],back:["lat","rear"],arm:["bi","tri"],even:[]};
+const EM_LABEL={shoulder:"좁은 어깨",back:"밋밋한 등",arm:"헐렁한 소매",even:"고르게"};
+const EQ_LABEL={gym:"헬스장",db:"집·덤벨",bw:"맨몸·밴드"};
+const LV_LABEL={a:"이제 시작",b:"3개월~2년",c:"2년 이상"};
+
+function prescribe(lv,k){
+  const iso=ISO.includes(k);
+  if(k==="core") return {sets:4,reps:"12–20회",rest:"1분"};
+  if(lv==="a") return {sets:4,reps:iso?"12–20회":"10–15회",rest:"1분"};
+  if(lv==="b") return {sets:4,reps:iso?"12–15회":"8–12회",rest:"1분"};
+  return {sets:4,reps:iso?"10–15회":"6–10회",rest:"1분"};
+}
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+
+function build(cfg){
+  const used=new Set();
+  const pick=k=>{
+    let pool=P[k].filter(x=>x.e.includes(cfg.eq));
+    if(!pool.length) pool=P[k].filter(x=>x.e.includes("bw"));
+    const fresh=pool.filter(x=>!used.has(x.n));
+    const arr=shuffle(fresh.length?fresh:pool);
+    used.add(arr[0].n); return arr[0];
+  };
+  const tpl=TPL[cfg.days].map(d=>({t:d.t,s:d.s.slice()}));
+  EM[cfg.em].forEach(k=>{let added=0;
+    for(const d of tpl){if(added>=2)break; if(d.s.includes(k)){d.s.push(k);added++;}}});
+  return tpl.map((d,i)=>({day:i+1,title:d.t,
+    ex:d.s.map(k=>{const e=pick(k);return Object.assign({k},e,prescribe(cfg.lv,k));})}));
+}
+
+/* 셔츠 입은 핏맨 — 세트가 몰린 부위가 밝게 */
+function fitmanMap(vol,max){
+  const op=g=>(0.08+0.62*((vol[g]||0)/max)).toFixed(2);
+  const zone=(d,g)=>`<path d="${d}" fill="${COLOR[g]}" fill-opacity="${op(g)}"
+     stroke="${COLOR[g]}" stroke-width="1.6" stroke-opacity=".75"/>`;
+  return `<svg viewBox="0 0 300 250" role="img" aria-label="세트가 많이 몰린 부위일수록 셔츠가 밝게 표시된 마스코트">
+    <ellipse cx="150" cy="140" rx="120" ry="98" fill="url(#glow)"/>
+    <g class="mEdge" stroke-width="26"><path d="M140 174 L136 206 L136 232"/><path d="M160 174 L164 206 L164 232"/></g>
+    <g class="mLimb" stroke-width="20"><path d="M140 174 L136 206 L136 232"/><path d="M160 174 L164 206 L164 232"/></g>
+    <path class="mEdge" stroke-width="9" d="M116 92 L184 92 L174 150 L166 174 L134 174 L126 150 Z"/>
+    <path class="mBody" d="M116 92 L184 92 L174 150 L166 174 L134 174 L126 150 Z"/>
+    <path class="mEdge" stroke-width="24" d="M118 94 L104 134 L94 174"/>
+    <path class="mLimb" stroke-width="17" d="M118 94 L104 134 L94 174"/>
+    <path class="mEdge" stroke-width="24" d="M182 94 L196 134 L206 174"/>
+    <path class="mLimb" stroke-width="17" d="M182 94 L196 134 L206 174"/>
+    <path class="mEdge" stroke-width="20" d="M150 76 L150 88"/>
+    <path class="mLimb" stroke-width="14" d="M150 76 L150 88"/>
+    <ellipse cx="150" cy="52" rx="18" ry="20" fill="#080A0D"/>
+    <ellipse cx="150" cy="52" rx="15.5" ry="17.5" fill="url(#chromeV)"/>
+    <ellipse cx="143.5" cy="45" rx="5" ry="6.8" fill="#fff" opacity=".7"/>
+    ${zone("M110 86 L140 78 L150 92 L160 78 L190 86 L190 116 L110 116 Z","어깨")}
+    ${zone("M110 96 L128 102 L114 142 L94 134 Z","팔")}
+    ${zone("M190 96 L172 102 L186 142 L206 134 Z","팔")}
+    ${zone("M110 116 L190 116 L185 158 L115 158 Z","가슴")}
+    ${zone("M115 158 L185 158 L181 190 L119 190 Z","코어")}
+  </svg>`;
+}
+
+/* ── 운동 모드 ─────────────────────────── */
+let beepOn=true, aCtx=null, wakeLock=null;
+function beep(hz,ms){
+  if(!beepOn) return;
+  try{ aCtx=aCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=aCtx.createOscillator(), g=aCtx.createGain();
+    o.type="sine"; o.frequency.value=hz; o.connect(g); g.connect(aCtx.destination);
+    g.gain.setValueAtTime(.0001,aCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.22,aCtx.currentTime+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,aCtx.currentTime+ms/1000);
+    o.start(); o.stop(aCtx.currentTime+ms/1000+.02);
+  }catch(e){}
+}
+const REST=60;
+const repMid=s=>Math.round(midReps(s));
+
+function startSession(plan,di,cfg){
+  const d=plan[di], color=DAYC[di%DAYC.length];
+  const total=d.ex.reduce((s,e)=>s+e.sets,0);
+  let ei=0, done=0, phase="work", left=0, tick=null, t0=Date.now();
+  const el=document.createElement("div");
+  el.className="runner"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true");
+  document.body.appendChild(el);
+  document.body.style.overflow="hidden";
+  try{ navigator.wakeLock?.request("screen").then(w=>wakeLock=w).catch(()=>{}); }catch(e){}
+
+  const close=()=>{ clearInterval(tick); try{wakeLock&&wakeLock.release();}catch(e){} wakeLock=null;
+    document.body.style.overflow=""; el.remove(); };
+  const setsDone=k=>{let n=0;for(let i=0;i<k;i++)n+=d.ex[i].sets;return n;};
+
+  function head(){
+    return `<div class="rtop"><span class="tag" style="background:${color}">DAY ${d.day}</span>
+      <span class="cnt">${Math.min(ei+1,d.ex.length)} / ${d.ex.length} 종목</span>
+      <span class="sp"><button id="r-snd">${beepOn?"🔔":"🔕"}</button>
+      <button id="r-x">닫기</button></span></div>
+      <div class="rbar"><i style="width:${Math.round(100*done/total)}%"></i></div>`;
+  }
+  function bindHead(){
+    el.querySelector("#r-x").onclick=()=>{ if(phase==="done"||confirm("세션을 끝낼까요?")) close(); };
+    const s=el.querySelector("#r-snd");
+    if(s) s.onclick=()=>{beepOn=!beepOn; s.textContent=beepOn?"🔔":"🔕"; if(beepOn) beep(760,90);};
+  }
+  function drawWork(){
+    const e=d.ex[ei], sd=done-setsDone(ei);
+    const dots=Array.from({length:e.sets},(_,i)=>`<i class="${i<sd?"on":""}"></i>`).join("");
+    el.innerHTML=head()+`<div class="rmain">
+      <div class="rmeta">SET ${sd+1} / ${e.sets}</div>
+      <h2 class="rname">${e.n}</h2>
+      <div class="rmeta">${e.reps}</div>
+      <div class="dots">${dots}</div>
+      <div class="rfig">${framesHTML(e.n)}</div>
+      ${loadCard(e.n,cfg,e.reps,true)}
+      <p class="rcue"><em>SET ${sd+1} · ${TIPSTAGE[sd%4]}</em>${tipFor(e.n,sd,e.c)}</p>
+    </div>
+    <button class="rbtn" id="r-ok">세트 완료</button>
+    <div class="rrow">
+      <button class="rbtn ghost" id="r-swap">기구 바꾸기</button>
+      <button class="rbtn ghost" id="r-skip">건너뛰기</button>
+    </div>`;
+    bindHead();
+    el.querySelector("#r-ok").onclick=()=>{
+      done++; beep(880,110);
+      const last=(done-setsDone(ei))>=e.sets;
+      if(last && ei>=d.ex.length-1){ drawDone(); return; }
+      drawReady(last);
+    };
+    el.querySelector("#r-swap").onclick=()=>drawSwap();
+    el.querySelector("#r-skip").onclick=()=>{
+      done=setsDone(ei)+d.ex[ei].sets; ei++;
+      if(ei>=d.ex.length) drawDone(); else drawWork();
+    };
+    el.scrollTop=0;
+  }
+
+  /* 기구가 차 있을 때 같은 부위 다른 종목으로 교체 */
+  function drawSwap(){
+    phase="swap";
+    const e=d.ex[ei];
+    const here=new Set(d.ex.map(x=>x.n));
+    const opts=P[e.k].filter(o=>o.n!==e.n)
+      .sort((a,b)=>(b.e.includes(cfg.eq)?1:0)-(a.e.includes(cfg.eq)?1:0));
+    const rows=opts.map((o,i)=>{
+      const w=weightFor(o.n,cfg,e.reps,false);
+      return `<button class="swapitem" data-i="${i}">
+        <span class="si-n">${o.n}<em>${eqTag(o.n)}</em>${here.has(o.n)?`<u>오늘 이미 포함</u>`:""}</span>
+        <span class="si-w">${w||"—"}</span></button>`;}).join("");
+    el.innerHTML=head()+`<div class="rmain" style="justify-content:flex-start;text-align:left">
+      <div class="rmeta">SWAP</div>
+      <h2 class="rname" style="font-size:20px;margin-bottom:4px">${e.n} 대신</h2>
+      <p class="rcue" style="margin:0 0 13px;padding:0">비어 있는 기구로 고르세요. 모두 같은 <b style="color:var(--chalk)">${NAME[e.k]}</b> 부위 운동이라 세트 수와 반복 수는 그대로 갑니다.</p>
+      <div class="swaplist">${rows}</div>
+      <p class="rcue" style="padding:0;margin-top:12px">바꾼 종목은 오늘 이 세션에만 적용됩니다.</p>
+    </div>
+    <button class="rbtn ghost" id="r-back">그대로 하기</button>`;
+    bindHead();
+    el.querySelector("#r-back").onclick=()=>{phase="work";drawWork();};
+    el.querySelectorAll(".swapitem").forEach(b=>b.onclick=()=>{
+      const o=opts[+b.dataset.i];
+      d.ex[ei]=Object.assign({},o,{k:e.k,sets:e.sets,reps:e.reps,rest:e.rest});
+      beep(760,90); phase="work"; drawWork();
+    });
+    el.scrollTop=0;
+  }
+  const nextLabel=adv=>{
+    const e=adv?d.ex[ei+1]:d.ex[ei];
+    const w=weightFor(e.n,cfg,e.reps,false);
+    return `${adv?"다음 종목":"다음 세트"} · <b>${e.n}</b>${w?`<br><span class="nw">${e.reps} · ${w}</span>`:""}`;
+  };
+  function advance(adv){ phase="work"; if(adv) ei++; drawWork(); }
+
+  /* 휴식 대기: 타이머는 사용자가 누를 때만 시작합니다 */
+  function drawReady(adv){
+    phase="ready"; clearInterval(tick);
+    el.innerHTML=head()+`<div class="rmain">
+      <div class="rmeta">REST</div>
+      ${ring(REST,color,1)}
+      <p class="rnext">${nextLabel(adv)}</p>
+      <p class="rcue">숨이 돌아왔으면 기다리지 말고 바로 다음 세트로 가도 됩니다.</p>
+    </div>
+    <button class="rbtn" id="r-start">휴식 1분 시작</button>
+    <div class="rrow"><button class="rbtn ghost" id="r-now">바로 다음 세트</button></div>`;
+    bindHead();
+    el.querySelector("#r-start").onclick=()=>runRest(adv);
+    el.querySelector("#r-now").onclick=()=>advance(adv);
+  }
+  function ring(sec,col,frac){
+    const C=2*Math.PI*88;
+    const mm=Math.floor(sec/60), ss=String(sec%60).padStart(2,"0");
+    return `<div class="ring"><svg viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/>
+      <circle id="r-ring" cx="100" cy="100" r="88" fill="none" stroke="${col}" stroke-width="10"
+        stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C*(1-frac)).toFixed(1)}"/>
+    </svg><div class="num" id="r-num">${mm}:${ss}</div></div>`;
+  }
+  function runRest(adv){
+    phase="rest"; left=REST;
+    el.innerHTML=head()+`<div class="rmain">
+      <div class="rmeta">REST</div>
+      ${ring(REST,color,1)}
+      <p class="rnext">${nextLabel(adv)}</p>
+    </div>
+    <button class="rbtn" id="r-skiprest">바로 시작</button>
+    <div class="rrow"><button class="rbtn ghost" id="r-add">+15초</button></div>`;
+    bindHead();
+    const C=2*Math.PI*88;
+    let span=REST;
+    const paint=()=>{
+      const n=el.querySelector("#r-num"), c=el.querySelector("#r-ring");
+      if(n) n.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`;
+      if(c) c.setAttribute("stroke-dashoffset",(C*(1-left/span)).toFixed(1));
+    };
+    clearInterval(tick);
+    const endAt=Date.now()+REST*1000; let lastBeep=REST+1;
+    tick=setInterval(()=>{
+      left=Math.max(0,Math.round((endAt-Date.now())/1000));
+      if(left<=3&&left>0&&left<lastBeep){ lastBeep=left; beep(660,70); }
+      if(left<=0){ clearInterval(tick); beep(1120,260); advance(adv); return; }
+      paint();
+    },250);
+    el.querySelector("#r-skiprest").onclick=()=>{clearInterval(tick);advance(adv);};
+    el.querySelector("#r-add").onclick=()=>{left+=15;span+=15;paint();};
+  }
+  function drawDone(){
+    phase="done"; clearInterval(tick);
+    const mins=Math.max(1,Math.round((Date.now()-t0)/60000));
+    const reps=d.ex.reduce((s,e)=>s+e.sets*repMid(e.reps),0);
+    el.innerHTML=head()+`<div class="rmain rdone">
+      <div class="rfig" style="max-width:190px">${figure("lateral","B")}</div>
+      <div class="big">SESSION COMPLETE</div>
+      <h2 class="rname" style="margin-top:6px">${d.title} 끝냈습니다</h2>
+      <div class="rstat">
+        <div><b>${total}</b><span>SETS</span></div>
+        <div><b>${reps}</b><span>REPS</span></div>
+        <div><b>${mins}</b><span>MIN</span></div>
+      </div>
+      <p class="rcue">다음 훈련까지 최소 하루는 비우고, 오늘 쓴 부위는 충분히 자는 동안 회복시킵니다.</p>
+    </div>
+    <button class="rbtn" id="r-close2">닫기</button>`;
+    bindHead();
+    el.querySelector("#r-close2").onclick=close;
+    beep(880,120); setTimeout(()=>beep(1180,220),150);
+  }
+  drawWork();
+}
+
+const eqTag=n=>{
+  const t=WT[n]||{};
+  if(t.u==="band") return "밴드";
+  if(t.u==="bw") return "맨몸";
+  if(/케이블/.test(n)) return "케이블";
+  if(/머신|펙덱|레그 프레스|랫 풀다운|시티드 케이블/.test(n)) return "머신";
+  if(/바벨|스컬 크러셔/.test(n)) return "바벨";
+  if(/덤벨|해머|고블릿|컨센트레이션/.test(n)) return "덤벨";
+  return "기타";
+};
+const estMin=d=>{const s=d.ex.reduce((a,e)=>a+e.sets,0); return Math.round(s*(REST+35)/60);};
+
+function render(plan,cfg){
+  const vol={};
+  plan.forEach(d=>d.ex.forEach(e=>{const g=NAME[e.k];vol[g]=(vol[g]||0)+e.sets;}));
+  const order=["어깨","등","가슴","팔","코어","하체"].filter(g=>vol[g]);
+  const max=Math.max(...order.map(g=>vol[g]));
+  const vrows=order.map(g=>`<div class="vrow"><span class="nm">${g}</span>
+    <span class="tr"><span class="fl" style="width:${Math.round(100*vol[g]/max)}%;background:${COLOR[g]}"></span></span>
+    <span class="vn">${vol[g]}세트</span></div>`).join("");
+
+  const tabs=plan.map((d,i)=>`<button class="tab" data-t="${i}" aria-selected="${i===0}"
+    style="${i===0?`background:${DAYC[i%DAYC.length]};border-color:transparent`:""}">DAY ${d.day}<small>${d.title}</small></button>`).join("");
+
+  const days=plan.map((d,di)=>{
+    const c=DAYC[di%DAYC.length];
+    const items=d.ex.map((e,i)=>{
+      const dm=demoHTML(e.n,cfg,e.reps), w=weightFor(e.n,cfg,e.reps,true);
+      return `<div class="ex">
+        <div class="ex-n">${i+1}. ${e.n}${dm?` <button class="see" aria-expanded="false">동작</button>`:""}</div>
+        <div class="ex-d">${e.sets} × ${e.reps}</div>
+        <div class="ex-c">${e.c} <i>세트 사이 1분</i></div>
+        ${w?`<div class="ex-w">${w}</div>`:""}
+        ${dm}</div>`;}).join("");
+    return `<div class="daypanel" data-p="${di}" ${di?"hidden":""}>
+      <div class="dhero" style="border-color:${c}">
+        <div class="dhero-l"><span class="dtag" style="background:${c}">DAY ${d.day}</span>
+          <h3>${d.title}</h3>
+          <p>${d.ex.length}종목 · ${d.ex.reduce((s,e)=>s+e.sets,0)}세트 · 예상 ${estMin(d)}분</p></div>
+        <button class="dgo start" data-di="${di}" style="background:${c}">이 날 시작</button>
+      </div>
+      <div class="day" style="border-left:3px solid ${c}">${items}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("result").innerHTML=`<div class="reveal">
+    <div class="rhead"><span class="big">${cfg.days}</span>
+      <h2>일 분할 · ${plan.reduce((s,d)=>s+d.ex.length,0)}종목</h2></div>
+    <p class="spec">${EQ_LABEL[cfg.eq]} / ${LV_LABEL[cfg.lv]} / ${EM_LABEL[cfg.em]} 보완${cfg.bw?` / ${cfg.sex==="m"?"M":"F"} ${cfg.h}cm ${cfg.bw}kg`:""}</p>
+    <div class="map">${fitmanMap(vol,max)}<div class="cap">밝게 빛나는 곳이 이번 주 세트가 몰린 부위입니다</div></div>
+    <div class="vol"><h3>WEEKLY VOLUME</h3>${vrows}</div>
+    ${fuelHTML(cfg)}
+    <div class="tabs" role="tablist">${tabs}</div>
+    ${days}
+    <div class="note"><h3>READ ME</h3>
+      <p><b>무게 올리는 기준</b> — 정해진 반복 수의 위쪽 숫자를 모든 세트에서 자세 흐트러짐 없이 채우면, 다음 주에 무게를 조금 올립니다.</p>
+      <p><b>마지막 2~3회가 힘든 무게</b>로 고르세요. 끝까지 여유로우면 가볍고, 자세가 무너지면 무겁습니다.</p>
+      <p><b>성장기 학생이라면</b> 최대 중량 도전보다 정확한 자세로 반복 수를 채우는 쪽이 훨씬 낫습니다. 통증이 생기면 그날은 거기서 끝냅니다.</p>
+      <p><b>동작 사진</b>은 Free Exercise DB(퍼블릭 도메인, Unlicense)의 자료입니다. 왼쪽이 시작, 오른쪽이 끝 자세입니다. 인터넷이 끊기면 핏맨 그림으로 대체됩니다.</p>
+      ${cfg.bw?`<p><b>무게의 출처</b> — Strength Level(누적 700만 건), ExRx, FitnessVolt의 체중 대비 기준표를 종합해 경력 구간별 1RM을 추정하고 해당 반복 수에 맞는 무게로 환산했습니다. 여성은 종목별 보정 계수를 따로 적용했습니다.</p>
+      <p><b>키는 거의 영향이 없습니다</b> — 중량은 체중과 경력이 대부분 결정합니다. 키는 지렛대 보정에만 5% 이내로 반영했습니다.</p>
+      <p><b>원판 그림</b>은 20kg 올림픽 바 기준으로 한쪽에 끼울 원판입니다. 색은 국제 규격(빨강 25 · 파랑 20 · 노랑 15 · 초록 10)을 따랐습니다.</p>`:
+      `<p>몸 정보를 입력하면 종목마다 시작 무게와 원판 조합이 함께 나옵니다.</p>`}
+    </div>
+    <div class="actions"><button id="again">다시 짜기</button><button id="copy">텍스트로 복사</button></div>
+    <textarea id="copyOut" hidden readonly></textarea></div>`;
+  document.getElementById("result").hidden=false;
+  CUR.plan=plan; CUR.cfg=cfg;
+
+  document.getElementById("again").onclick=()=>{render(build(cfg),cfg);
+    document.getElementById("result").scrollIntoView({behavior:"smooth",block:"start"});};
+  document.getElementById("copy").onclick=async e=>{
+    const txt=plan.map(d=>`[DAY ${d.day}] ${d.title}\n`+d.ex.map((x,i)=>{
+      const w=weightFor(x.n,cfg,x.reps,false);
+      return `${i+1}. ${x.n}  ${x.sets}×${x.reps}${w?"  ▸ "+w:""}`;}).join("\n")).join("\n\n");
+    const full=`핏맨 옷발 루틴 · 주 ${cfg.days}일 · ${EQ_LABEL[cfg.eq]}${cfg.bw?` · ${cfg.h}cm ${cfg.bw}kg`:""}\n\n${txt}\n\n※ 무게는 시작 기준값입니다. 마지막 2~3회가 힘든 무게로 조절하세요.`;
+    try{await navigator.clipboard.writeText(full);e.target.textContent="복사됨";
+      setTimeout(()=>e.target.textContent="텍스트로 복사",1800);}
+    catch(err){const t=document.getElementById("copyOut");t.value=full;t.hidden=false;t.select();
+      e.target.textContent="아래를 길게 눌러 복사";}
+  };
+}
+
+let CUR={plan:null,cfg:null};
+document.addEventListener("click",ev=>{
+  const root=document.getElementById("result");
+  if(!root||!root.contains(ev.target)||!CUR.plan) return;
+  const tb=ev.target.closest(".tab");
+  if(tb){
+    const i=+tb.dataset.t;
+    root.querySelectorAll(".tab").forEach((t,k)=>{
+      const on=k===i; t.setAttribute("aria-selected",String(on));
+      t.style.background=on?DAYC[k%DAYC.length]:""; t.style.borderColor=on?"transparent":"";
+    });
+    root.querySelectorAll(".daypanel").forEach((p,k)=>{p.hidden=k!==i;});
+    const tabsEl=root.querySelector(".tabs");
+    window.scrollTo({top:tabsEl.getBoundingClientRect().top+window.scrollY-6,behavior:"smooth"});
+    return;
+  }
+  const st=ev.target.closest(".start");
+  if(st){ startSession(CUR.plan,+st.dataset.di,CUR.cfg); return; }
+  const b=ev.target.closest(".see"); if(!b) return;
+  const dm=b.closest(".ex").querySelector(".demo");
+  const open=b.getAttribute("aria-expanded")==="true";
+  b.setAttribute("aria-expanded",String(!open)); dm.hidden=open;
+});
+
+/* ── 내 정보 저장 ─────────────────────────
+   1순위: 앱 저장소(사용자별로 분리 보관)
+   2순위: 주소 뒤 #해시 — 파일을 그대로 열거나 링크로 공유해도 설정이 따라갑니다 */
+const PKEY="fitman:profile";
+const PFIELDS=["eq","days","lv","em","sex","goal"];
+function readForm(){
+  const p={};
+  PFIELDS.forEach(f=>{ p[f]=val("q-"+f); });
+  ["h","bw","age"].forEach(k=>{
+    const v=document.getElementById("in-"+k).value.trim();
+    if(v) p[k]=v;
+  });
+  return p;
+}
+function applyProfile(p){
+  if(!p) return false;
+  let any=false;
+  PFIELDS.forEach(f=>{
+    if(!p[f]) return;
+    const g=document.getElementById("q-"+f); if(!g) return;
+    let hit=false;
+    g.querySelectorAll(".chip").forEach(c=>{
+      const on=String(c.dataset.v)===String(p[f]);
+      if(on) hit=true;
+      c.setAttribute("aria-pressed",String(on));
+    });
+    if(!hit) g.querySelector(".chip").setAttribute("aria-pressed","true"); else any=true;
+  });
+  ["h","bw","age"].forEach(k=>{
+    if(p[k]){ document.getElementById("in-"+k).value=p[k]; any=true; }
+  });
+  return any;
+}
+function toHash(p){
+  const q=Object.entries(p).filter(([,v])=>v!=null&&v!=="")
+    .map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join("&");
+  try{ history.replaceState(null,"", q?("#"+q):location.pathname+location.search); }catch(e){}
+}
+function fromHash(){
+  const h=location.hash.replace(/^#/,""); if(!h||h.indexOf("=")<0) return null;
+  const p={}; h.split("&").forEach(kv=>{const [k,v]=kv.split("=");
+    if(k) p[k]=decodeURIComponent(v||"");});
+  return p;
+}
+async function saveProfile(){
+  const on=document.getElementById("remember").getAttribute("aria-pressed")==="true";
+  const st=document.getElementById("savest"), fg=document.getElementById("forget");
+  if(!on){ toHash({}); st.textContent="저장하지 않습니다"; fg.hidden=true;
+    try{ await window.storage?.delete(PKEY); }catch(e){} return; }
+  const p=readForm();
+  toHash(p);
+  let where="주소에";
+  try{
+    if(window.storage){ await window.storage.set(PKEY,JSON.stringify(p)); where="이 기기에"; }
+  }catch(e){}
+  st.textContent=`${where} 저장했습니다`;
+  fg.hidden=false;
+}
+async function loadProfile(){
+  const st=document.getElementById("savest"), fg=document.getElementById("forget");
+  let p=fromHash(), src="주소에서";
+  if(!p){
+    try{ const r=await window.storage?.get(PKEY); if(r&&r.value){ p=JSON.parse(r.value); src="저장된 정보를"; } }
+    catch(e){}
+  }
+  if(applyProfile(p)){
+    const bits=[p.sex==="f"?"여":"남",p.h&&p.h+"cm",p.bw&&p.bw+"kg",p.age&&p.age+"세"].filter(Boolean);
+    st.textContent=`${src} 불러왔습니다 · ${bits.join(" ")}`;
+    fg.hidden=false;
+  }
+}
+document.getElementById("remember").onclick=e=>{
+  const b=e.currentTarget, on=b.getAttribute("aria-pressed")==="true";
+  b.setAttribute("aria-pressed",String(!on));
+  if(on){ document.getElementById("savest").textContent="다음부터 저장하지 않습니다"; }
+};
+document.getElementById("forget").onclick=async ()=>{
+  try{ await window.storage?.delete(PKEY); }catch(e){}
+  toHash({});
+  ["h","bw","age"].forEach(k=>document.getElementById("in-"+k).value="");
+  document.getElementById("savest").textContent="지웠습니다";
+  document.getElementById("forget").hidden=true;
+};
+document.querySelectorAll(".chips").forEach(g=>{
+  g.addEventListener("click",ev=>{const b=ev.target.closest(".chip"); if(!b)return;
+    g.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b)));});
+});
+const val=id=>document.querySelector(`#${id} .chip[aria-pressed="true"]`).dataset.v;
+const num=(id,min,max,def)=>{const v=parseFloat(document.getElementById(id).value);
+  return (isFinite(v)&&v>=min&&v<=max)?v:def;};
+document.getElementById("cut").onclick=()=>{
+  const bwRaw=document.getElementById("in-bw").value.trim();
+  const ageRaw=document.getElementById("in-age").value.trim();
+  const cfg={eq:val("q-eq"),days:+val("q-days"),lv:val("q-lv"),em:val("q-em"),sex:val("q-sex"),
+    goal:val("q-goal"),
+    bw:bwRaw?num("in-bw",25,200,0):0, age:ageRaw?num("in-age",10,90,0):0,
+    h:num("in-h",120,220, val("q-sex")==="m"?173:160)};
+  render(build(cfg),cfg);
+  saveProfile();
+  document.getElementById("result").scrollIntoView({behavior:"smooth",block:"start"});
+};
+loadProfile();
+
+/* ── 도구: 종목별 세트·중량 조회 ──────────── */
+(function(){
+  const GRP=[["delt","어깨"],["rear","어깨 뒤·승모"],["lat","등"],["chest","가슴"],
+             ["bi","이두"],["tri","삼두"],["core","코어"],["leg","하체"]];
+  const sel=document.getElementById("lk-ex");
+  sel.innerHTML=GRP.map(([k,label])=>
+    `<optgroup label="${label}">${P[k].map(e=>`<option value="${e.n}" data-k="${k}">${e.n}</option>`).join("")}</optgroup>`
+  ).join("");
+  document.getElementById("lk-go").onclick=()=>{
+    const opt=sel.selectedOptions[0], name=opt.value, k=opt.dataset.k;
+    const bwRaw=document.getElementById("in-bw").value.trim();
+    const cfg={sex:val("q-sex"),lv:val("q-lv"),days:+val("q-days"),
+      bw:bwRaw?num("in-bw",25,200,0):0, h:num("in-h",120,220, val("q-sex")==="m"?173:160)};
+    const p=prescribe(cfg.lv,k);
+    const ex=P[k].find(e=>e.n===name);
+    const out=document.getElementById("lk-out");
+    out.innerHTML=`<div class="lkcard">
+      <div class="lkhead"><b>${name}</b><span>${cfg.sex==="m"?"남":"여"} ${cfg.bw?cfg.bw+"kg":"체중 미입력"} · ${LV_LABEL[cfg.lv]}</span></div>
+      <div class="lkgrid">
+        <div><b>${p.sets}</b><span>SETS</span></div>
+        <div><b>${p.reps.replace("회","")}</b><span>REPS</span></div>
+        <div><b>1:00</b><span>REST</span></div>
+      </div>
+      <div class="rfig" style="max-width:250px;margin:10px auto 0">${framesHTML(name)}</div>
+      ${loadCard(name,cfg,p.reps,true)}
+      <ol class="tiplist">${(TIPS[name]||[[ex.c]]).map((t,i)=>
+        `<li><b>SET ${i+1} · ${TIPSTAGE[i]||""}</b>${t}</li>`).join("")}</ol>
+    </div>`;
+  };
+})();
+
+/* ── 앱으로 설치 ───────────────────────── */
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+(function(){
+  const box=document.getElementById("install"), msg=document.getElementById("install-msg"),
+        go=document.getElementById("install-go"), x=document.getElementById("install-x");
+  const standalone=(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||navigator.standalone;
+  const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+            (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  let prompt=null;
+  x.onclick=()=>{box.hidden=true;};
+  if(standalone) return;
+  window.addEventListener("beforeinstallprompt",e=>{      // 갤럭시·크롬
+    e.preventDefault(); prompt=e;
+    msg.innerHTML="<b>홈 화면에 설치</b>하면 주소창 없이 앱처럼 열리고, 인터넷 없이도 돌아갑니다.";
+    go.hidden=false; box.hidden=false;
+  });
+  if(ios){                                                 // 아이폰 사파리
+    setTimeout(()=>{ if(box.hidden!==false){
+      msg.innerHTML="아이폰에서는 아래 <b>공유 버튼 → 홈 화면에 추가</b>를 누르면 앱처럼 쓸 수 있습니다.";
+      box.hidden=false; } },2500);
+  }
+  go.onclick=async()=>{ if(!prompt) return;
+    box.hidden=true; prompt.prompt(); prompt=null; };
+})();
+</script>
