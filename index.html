@@ -394,6 +394,13 @@ h1 span{color:var(--blue2)}
 .made .src{max-width:400px;margin:12px auto 8px;padding-top:11px;border-top:1px dotted rgba(255,255,255,.08)}
 .made .src b{color:var(--dim);font-weight:700}
 .made .copy{font-family:"IBM Plex Mono",monospace;font-size:10px;color:rgba(241,239,234,.22);margin-top:12px}
+
+/* 04번 설명·주의 문구 */
+.emdesc{margin:11px 0 0;font-size:12px;color:var(--dim);line-height:1.6;
+  padding-left:9px;border-left:2px solid var(--blue2)}
+.emnote{margin:11px 0 0;padding-top:10px;border-top:1px dotted rgba(255,255,255,.08);
+  font-size:11.5px;color:var(--dim2);line-height:1.65}
+.emnote b{color:var(--dim);font-weight:700}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -488,12 +495,10 @@ h1 span{color:var(--blue2)}
   </div>
   <div class="q">
     <div class="q-label"><span class="q-num bebas">04</span><span class="q-title">가장 아쉬운 부분</span><span class="q-hint">여기에 세트를 더 얹습니다</span></div>
-    <div class="chips" id="q-em">
-      <button class="chip" data-v="shoulder" aria-pressed="true">좁은 어깨</button>
-      <button class="chip" data-v="back" aria-pressed="false">밋밋한 등</button>
-      <button class="chip" data-v="arm" aria-pressed="false">헐렁한 소매</button>
-      <button class="chip" data-v="even" aria-pressed="false">고르게</button>
-    </div>
+    <div class="chips" id="q-em"></div>
+    <p class="emdesc" id="emdesc"></p>
+    <p class="emnote">부위별로 살을 빼는 건 안 됩니다. 체지방은 몸 전체에서 줄고, 어디부터 빠질지는 유전이 정합니다.
+      대신 <b>근육이 붙는 자리는 고를 수 있고</b>, 실루엣은 그걸로 바뀝니다.</p>
   </div>
   <div class="q">
     <div class="q-label"><span class="q-num bebas">05</span><span class="q-title">몸 정보</span><span class="q-hint">비우면 무게 없이 나옵니다</span></div>
@@ -1340,8 +1345,47 @@ const TPL={
    {t:"하체 · 코어",s:["leg","leg","leg","core"]},
    {t:"약점 보강",s:["delt","rear","core"]}]
 };
-const EM={shoulder:["delt","rear"],back:["lat","rear"],arm:["bi","tri"],even:[]};
-const EM_LABEL={shoulder:"좁은 어깨",back:"밋밋한 등",arm:"헐렁한 소매",even:"고르게"};
+/* 힙·다리 라인 목표용 분할 — 하체가 주 3~4회 돌아옵니다 */
+const TPLG={
+2:[{t:"힙 · 하체",s:["leg","leg","leg","core","core"]},
+   {t:"상체 · 하체 마무리",s:["delt","lat","rear","chest","bi","leg"]}],
+3:[{t:"힙 · 하체",s:["leg","leg","leg","core","core"]},
+   {t:"등 · 어깨 · 팔",s:["lat","lat","delt","rear","chest","bi"]},
+   {t:"하체 · 코어",s:["leg","leg","core"]}],
+4:[{t:"힙 · 하체",s:["leg","leg","leg","core"]},
+   {t:"등 · 어깨",s:["lat","lat","rear","delt"]},
+   {t:"하체 · 코어",s:["leg","leg","core","core"]},
+   {t:"어깨 · 가슴 · 팔",s:["delt","chest","tri","bi","rear"]}],
+5:[{t:"힙 · 하체",s:["leg","leg","leg","core"]},
+   {t:"등 · 이두",s:["lat","lat","rear","bi"]},
+   {t:"하체 · 코어",s:["leg","leg","core","core"]},
+   {t:"어깨 · 가슴 · 삼두",s:["delt","delt","chest","tri"]},
+   {t:"하체 마무리 · 코어",s:["leg","core","core"]}]
+};
+const EMSET={
+m:[
+ {v:"shoulder",t:"좁은 어깨",  d:"어깨 측면과 후면에 세트를 더 얹습니다. 옷발이 가장 크게 달라지는 부위입니다.", add:["delt","rear"]},
+ {v:"back",    t:"밋밋한 등",  d:"광배와 등 위쪽에 세트를 몰아 뒤에서 봤을 때 V 라인을 만듭니다.", add:["lat","rear"]},
+ {v:"arm",     t:"헐렁한 소매",d:"이두 장두와 삼두 장두를 함께 채워 반팔 소매를 채웁니다.", add:["bi","tri"]},
+ {v:"even",    t:"고르게",     d:"한쪽에 몰지 않고 상체 전체를 균형 있게 올립니다.", add:[]}
+],
+f:[
+ {v:"wshoulder",t:"어깨·허리 라인",d:"어깨가 넓어지면 같은 허리도 좁아 보입니다. 잘록해 보이는 가장 확실한 방법입니다.", add:["delt","rear"]},
+ {v:"wposture", t:"뒤태·자세",    d:"등 위쪽과 후면 어깨를 채웁니다. 굽은 등이 펴지는 것만으로 옷 핏이 달라집니다.", add:["rear","lat"]},
+ {v:"wglute",   t:"힙·다리 라인", d:"하체 볼륨을 크게 올립니다. 힙 쓰러스트와 루마니안 데드리프트가 중심이 됩니다.", tpl:"G", add:[]},
+ {v:"warm",     t:"팔 라인",      d:"팔 지방을 지목할 수는 없지만, 삼두에 근육이 붙으면 팔 뒤쪽 라인이 살아납니다.", add:["tri","bi"]},
+ {v:"even",     t:"고르게",       d:"상체와 하체를 한쪽에 몰지 않고 균형 있게 올립니다.", add:[]}
+]};
+const emList=sex=>EMSET[sex==="f"?"f":"m"];
+const emFind=(sex,v)=>emList(sex).find(x=>x.v===v)||emList(sex)[0];
+function renderEm(sex,keep){
+  const box=document.getElementById("q-em");
+  const list=emList(sex);
+  const sel=list.some(x=>x.v===keep)?keep:list[0].v;
+  box.innerHTML=list.map(x=>
+    `<button class="chip" data-v="${x.v}" aria-pressed="${x.v===sel}">${x.t}</button>`).join("");
+  document.getElementById("emdesc").textContent=emFind(sex,sel).d;
+}
 const EQ_LABEL={gym:"헬스장",db:"집·덤벨",bw:"맨몸·밴드"};
 const LV_LABEL={a:"이제 시작",b:"3개월~2년",c:"2년 이상"};
 
@@ -1363,9 +1407,15 @@ function build(cfg){
     const arr=shuffle(fresh.length?fresh:pool);
     used.add(arr[0].n); return arr[0];
   };
-  const tpl=TPL[cfg.days].map(d=>({t:d.t,s:d.s.slice()}));
-  EM[cfg.em].forEach(k=>{let added=0;
-    for(const d of tpl){if(added>=2)break; if(d.s.includes(k)){d.s.push(k);added++;}}});
+  const em=emFind(cfg.sex,cfg.em);
+  const base=(em.tpl==="G"&&TPLG[cfg.days])?TPLG:TPL;
+  const tpl=base[cfg.days].map(d=>({t:d.t,s:d.s.slice()}));
+  em.add.forEach(k=>{
+    const hosts=tpl.filter(d=>d.s.includes(k));   // 그 부위를 이미 하는 날 우선
+    const pool=(hosts.length?hosts:tpl).slice().sort((a,b)=>a.s.length-b.s.length);
+    pool[0].s.push(k);
+    if(pool[1]) pool[1].s.push(k);                // 이틀에 나눠 얹습니다
+  });
   return tpl.map((d,i)=>({day:i+1,title:d.t,
     ex:d.s.map(k=>{const e=pick(k);return Object.assign({k},e,prescribe(cfg.lv,k));})}));
 }
@@ -1395,6 +1445,7 @@ function fitmanMap(vol,max){
     ${zone("M190 96 L172 102 L186 142 L206 134 Z","팔")}
     ${zone("M110 116 L190 116 L185 158 L115 158 Z","가슴")}
     ${zone("M115 158 L185 158 L181 190 L119 190 Z","코어")}
+    ${vol["하체"]?zone("M119 188 L181 188 L184 232 L157 232 L150 202 L143 232 L116 232 Z","하체"):""}
   </svg>`;
 }
 
@@ -1631,7 +1682,7 @@ function render(plan,cfg){
   document.getElementById("result").innerHTML=`<div class="reveal">
     <div class="rhead"><span class="big">${cfg.days}</span>
       <h2>일 분할 · ${plan.reduce((s,d)=>s+d.ex.length,0)}종목</h2></div>
-    <p class="spec">${EQ_LABEL[cfg.eq]} / ${LV_LABEL[cfg.lv]} / ${EM_LABEL[cfg.em]} 보완${cfg.bw?` / ${cfg.sex==="m"?"M":"F"} ${cfg.h}cm ${cfg.bw}kg`:""}</p>
+    <p class="spec">${EQ_LABEL[cfg.eq]} / ${LV_LABEL[cfg.lv]} / ${emFind(cfg.sex,cfg.em).t} 보완${cfg.bw?` / ${cfg.sex==="m"?"M":"F"} ${cfg.h}cm ${cfg.bw}kg`:""}</p>
     <div class="map">${fitmanMap(vol,max)}<div class="cap">밝게 빛나는 곳이 이번 주 세트가 몰린 부위입니다</div></div>
     <div class="vol"><h3>WEEKLY VOLUME</h3>${vrows}</div>
     ${fuelHTML(cfg)}
@@ -1641,6 +1692,7 @@ function render(plan,cfg){
       <p><b>무게 올리는 기준</b> — 정해진 반복 수의 위쪽 숫자를 모든 세트에서 자세 흐트러짐 없이 채우면, 다음 주에 무게를 조금 올립니다.</p>
       <p><b>마지막 2~3회가 힘든 무게</b>로 고르세요. 끝까지 여유로우면 가볍고, 자세가 무너지면 무겁습니다.</p>
       <p><b>성장기 학생이라면</b> 최대 중량 도전보다 정확한 자세로 반복 수를 채우는 쪽이 훨씬 낫습니다. 통증이 생기면 그날은 거기서 끝냅니다.</p>
+      <p><b>부위별로 살을 빼는 건 안 됩니다.</b> 팔 운동을 아무리 해도 팔 지방이 먼저 빠지지는 않습니다. 체지방은 몸 전체에서 줄고 순서는 유전이 정합니다. 이 앱이 정하는 건 근육이 어디에 붙느냐이고, 실루엣은 그걸로 바뀝니다.</p>
       <p><b>동작 사진</b>은 Free Exercise DB(퍼블릭 도메인, Unlicense)의 자료입니다. 왼쪽이 시작, 오른쪽이 끝 자세입니다. 인터넷이 끊기면 핏맨 그림으로 대체됩니다.</p>
       ${cfg.bw?`<p><b>무게의 출처</b> — Strength Level(누적 700만 건), ExRx, FitnessVolt의 체중 대비 기준표를 종합해 경력 구간별 1RM을 추정하고 해당 반복 수에 맞는 무게로 환산했습니다. 여성은 종목별 보정 계수를 따로 적용했습니다.</p>
       <p><b>키는 거의 영향이 없습니다</b> — 중량은 체중과 경력이 대부분 결정합니다. 키는 지렛대 보정에만 5% 이내로 반영했습니다.</p>
@@ -1707,6 +1759,11 @@ function readForm(){
 function applyProfile(p){
   if(!p) return false;
   let any=false;
+  if(p.sex){                       // 성별을 먼저 반영해야 04번 선택지가 맞게 그려집니다
+    document.querySelectorAll("#q-sex .chip").forEach(c=>
+      c.setAttribute("aria-pressed",String(c.dataset.v===p.sex)));
+    renderEm(p.sex,p.em);
+  }
   PFIELDS.forEach(f=>{
     if(!p[f]) return;
     const g=document.getElementById("q-"+f); if(!g) return;
@@ -1775,8 +1832,12 @@ document.getElementById("forget").onclick=async ()=>{
 };
 document.querySelectorAll(".chips").forEach(g=>{
   g.addEventListener("click",ev=>{const b=ev.target.closest(".chip"); if(!b)return;
-    g.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b)));});
+    g.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b)));
+    if(g.id==="q-sex") renderEm(b.dataset.v, val("q-em"));
+    if(g.id==="q-em") document.getElementById("emdesc").textContent=emFind(val("q-sex"),b.dataset.v).d;
+  });
 });
+renderEm("m");
 const val=id=>document.querySelector(`#${id} .chip[aria-pressed="true"]`).dataset.v;
 const num=(id,min,max,def)=>{const v=parseFloat(document.getElementById(id).value);
   return (isFinite(v)&&v>=min&&v<=max)?v:def;};
