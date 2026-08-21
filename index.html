@@ -401,6 +401,62 @@ h1 span{color:var(--blue2)}
 .emnote{margin:11px 0 0;padding-top:10px;border-top:1px dotted rgba(255,255,255,.08);
   font-size:11.5px;color:var(--dim2);line-height:1.65}
 .emnote b{color:var(--dim);font-weight:700}
+
+/* 마무리 유산소 */
+.cardio-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cardio-pick button{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:15px 4px;cursor:pointer;color:var(--chalk);box-shadow:inset 0 1px 0 var(--edge);
+  transition:border-color .15s,background .15s}
+.cardio-pick button:hover{border-color:var(--blue2);background:rgba(59,107,224,.12)}
+.cardio-pick button:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.cardio-pick b{display:block;font-family:"Bebas Neue",sans-serif;font-size:31px;line-height:1;letter-spacing:.02em}
+.cardio-pick span{font-family:"Bebas Neue",sans-serif;font-size:10px;letter-spacing:.16em;color:var(--dim2)}
+.rstat .cardio b{color:var(--blue2)}
+.ex.finisher{background:rgba(59,107,224,.06);border-top:1px solid var(--line)}
+.ex.finisher .ex-n{color:var(--blue2)}
+
+/* 달리는 핏맨 */
+.runfig{width:min(64vw,240px);height:auto;display:block;margin:8px auto 0}
+.runfig line{stroke-linecap:round}
+.rl-o{stroke:#080A0D;stroke-width:24}
+.rf-o{stroke:#080A0D;stroke-width:21}
+.ra-o{stroke:#080A0D;stroke-width:21}
+.rt-o{stroke:#080A0D;stroke-width:34}
+.rn-o{stroke:#080A0D;stroke-width:23}
+.rl-i{stroke:url(#chrome);stroke-width:17}
+.rf-i{stroke:url(#chrome);stroke-width:14}
+.ra-i{stroke:url(#chrome);stroke-width:14}
+.rt-i{stroke:url(#chrome);stroke-width:26}
+.rn-i{stroke:url(#chrome);stroke-width:16}
+.rback .rl-i,.rback .rf-i,.rback .ra-i{stroke:#7F8A99}
+.rground{stroke:var(--blue2);stroke-width:3;stroke-dasharray:16 14;opacity:.5;
+  animation:rground .38s linear infinite}
+.runfig g[class^="rleg"],.runfig g[class^="rarm"]{transform-origin:0 0}
+.rleg-f,.rleg-b{animation:thighRun .76s linear infinite}
+.rleg-f-s,.rleg-b-s{animation:shinRun .76s linear infinite}
+.rarm-f,.rarm-b{animation:armRun .76s linear infinite}
+.rarm-f-f,.rarm-b-f{animation:foreRun .76s linear infinite}
+.rbob{animation:rbob .38s ease-in-out infinite}
+@keyframes thighRun{0%{transform:rotate(-34deg)}50%{transform:rotate(30deg)}100%{transform:rotate(-34deg)}}
+@keyframes shinRun{0%{transform:rotate(34deg)}32%{transform:rotate(0deg)}66%{transform:rotate(58deg)}100%{transform:rotate(34deg)}}
+@keyframes armRun{0%{transform:rotate(40deg)}50%{transform:rotate(-44deg)}100%{transform:rotate(40deg)}}
+@keyframes foreRun{0%{transform:rotate(-60deg)}50%{transform:rotate(-12deg)}100%{transform:rotate(-60deg)}}
+@keyframes rbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes rground{to{stroke-dashoffset:-60}}
+
+/* 엄지척 핏맨 · 마무리 문구 */
+.thumbwrap{max-width:min(58vw,215px);margin:0 auto -4px;animation:pop .5s cubic-bezier(.2,1.5,.4,1) both}
+.thumbfig{width:100%;height:auto;display:block}
+.thumbarm{transform-origin:182px 96px;animation:thumbup .5s cubic-bezier(.2,1.7,.4,1) .18s both}
+@keyframes pop{from{opacity:0;transform:scale(.82) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes thumbup{from{transform:rotate(46deg)}to{transform:rotate(0)}}
+.motto{font-family:"Do Hyeon",sans-serif;font-size:clamp(21px,6.4vw,27px);line-height:1.32;
+  margin:8px 0 12px;color:var(--chalk);animation:pop .5s cubic-bezier(.2,1.4,.4,1) .3s both}
+.motto span{color:var(--blue2)}
+@media (prefers-reduced-motion:reduce){
+  .rbob,.rground,.runfig g[class^="rleg"],.runfig g[class^="rarm"],
+  .thumbwrap,.thumbarm,.motto{animation:none}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -494,18 +550,21 @@ h1 span{color:var(--blue2)}
     </div>
   </div>
   <div class="q">
-    <div class="q-label"><span class="q-num bebas">04</span><span class="q-title">가장 아쉬운 부분</span><span class="q-hint">여기에 세트를 더 얹습니다</span></div>
+    <div class="q-label"><span class="q-num bebas">04</span><span class="q-title">성별</span><span class="q-hint">아래 목표 선택지가 달라집니다</span></div>
+    <div class="chips" id="q-sex">
+      <button class="chip" data-v="m" aria-pressed="true">남</button>
+      <button class="chip" data-v="f" aria-pressed="false">여</button>
+    </div>
+  </div>
+  <div class="q">
+    <div class="q-label"><span class="q-num bebas">05</span><span class="q-title">가장 아쉬운 부분</span><span class="q-hint">여기에 세트를 더 얹습니다</span></div>
     <div class="chips" id="q-em"></div>
     <p class="emdesc" id="emdesc"></p>
     <p class="emnote">부위별로 살을 빼는 건 안 됩니다. 체지방은 몸 전체에서 줄고, 어디부터 빠질지는 유전이 정합니다.
       대신 <b>근육이 붙는 자리는 고를 수 있고</b>, 실루엣은 그걸로 바뀝니다.</p>
   </div>
   <div class="q">
-    <div class="q-label"><span class="q-num bebas">05</span><span class="q-title">몸 정보</span><span class="q-hint">비우면 무게 없이 나옵니다</span></div>
-    <div class="chips" id="q-sex">
-      <button class="chip" data-v="m" aria-pressed="true">남</button>
-      <button class="chip" data-v="f" aria-pressed="false">여</button>
-    </div>
+    <div class="q-label"><span class="q-num bebas">06</span><span class="q-title">몸 정보</span><span class="q-hint">비우면 무게 없이 나옵니다</span></div>
     <div class="fields">
       <label>키 <input id="in-h" type="number" inputmode="numeric" min="120" max="220" placeholder="175"><span class="unit">CM</span></label>
       <label>체중 <input id="in-bw" type="number" inputmode="numeric" min="25" max="200" placeholder="70"><span class="unit">KG</span></label>
@@ -518,7 +577,7 @@ h1 span{color:var(--blue2)}
     </div>
   </div>
   <div class="q">
-    <div class="q-label"><span class="q-num bebas">06</span><span class="q-title">목표</span><span class="q-hint">칼로리·단백질 계산에 씁니다</span></div>
+    <div class="q-label"><span class="q-num bebas">07</span><span class="q-title">목표</span><span class="q-hint">칼로리·단백질 계산에 씁니다</span></div>
     <div class="chips" id="q-goal">
       <button class="chip" data-v="keep" aria-pressed="true">지금 체중 유지</button>
       <button class="chip" data-v="gain" aria-pressed="false">근육 늘리기</button>
@@ -1205,7 +1264,7 @@ function weightFor(name,cfg,reps,html){
 /* 동작 그림 바로 아래에 붙는 중량 카드 */
 function loadCard(name,cfg,reps,big){
   const w=weightInfo(name,cfg,reps);
-  if(w.type==="none") return big?`<div class="lcard txt">05번에 체중을 넣으면 추천 중량이 여기에 나옵니다</div>`:"";
+  if(w.type==="none") return big?`<div class="lcard txt">06번에 체중을 넣으면 추천 중량이 여기에 나옵니다</div>`:"";
   if(w.type==="bw") return `<div class="lcard txt">이 동작은 <b>체중</b>으로 합니다</div>`;
   if(w.type==="band") return `<div class="lcard txt"><b>밴드 저항</b>으로 조절합니다</div>`;
   return `<div class="lcard">
@@ -1267,7 +1326,7 @@ function fuelFor(cfg){
 function fuelHTML(cfg){
   const f=fuelFor(cfg);
   if(!f) return `<div class="fuel"><h3>FUEL</h3>
-    <p class="fnote">05번에 체중과 나이를 입력하면 하루 칼로리, 단백질, 끼니별 식단이 여기에 나옵니다.</p></div>`;
+    <p class="fnote">06번에 체중과 나이를 입력하면 하루 칼로리, 단백질, 끼니별 식단이 여기에 나옵니다.</p></div>`;
   const per=Math.round(f.pMid/4);
   const opts=PROT.slice(0,6).map(x=>`<span>${portion(per,x)}</span>`).join("");
   const meals=[
@@ -1468,7 +1527,7 @@ const repMid=s=>Math.round(midReps(s));
 function startSession(plan,di,cfg){
   const d=plan[di], color=DAYC[di%DAYC.length];
   const total=d.ex.reduce((s,e)=>s+e.sets,0);
-  let ei=0, done=0, phase="work", left=0, tick=null, t0=Date.now();
+  let ei=0, done=0, phase="work", left=0, tick=null, t0=Date.now(), cardioMin=0;
   const el=document.createElement("div");
   el.className="runner"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true");
   document.body.appendChild(el);
@@ -1512,13 +1571,13 @@ function startSession(plan,di,cfg){
     el.querySelector("#r-ok").onclick=()=>{
       done++; beep(880,110);
       const last=(done-setsDone(ei))>=e.sets;
-      if(last && ei>=d.ex.length-1){ drawDone(); return; }
+      if(last && ei>=d.ex.length-1){ drawCardio(); return; }
       drawReady(last);
     };
     el.querySelector("#r-swap").onclick=()=>drawSwap();
     el.querySelector("#r-skip").onclick=()=>{
       done=setsDone(ei)+d.ex[ei].sets; ei++;
-      if(ei>=d.ex.length) drawDone(); else drawWork();
+      if(ei>=d.ex.length) drawCardio(); else drawWork();
     };
     el.scrollTop=0;
   }
@@ -1611,19 +1670,79 @@ function startSession(plan,di,cfg){
     el.querySelector("#r-skiprest").onclick=()=>{clearInterval(tick);advance(adv);};
     el.querySelector("#r-add").onclick=()=>{left+=15;span+=15;paint();};
   }
+  /* 마무리 유산소 — 시간을 고르면 타이머가 돕니다 */
+  function drawCardio(){
+    phase="cardio"; clearInterval(tick);
+    el.innerHTML=head()+`<div class="rmain">
+      <div class="rmeta">FINISHER</div>
+      <h2 class="rname">마무리 유산소</h2>
+      <p class="rcue" style="margin:6px 0 18px;padding:0">웨이트를 다 끝낸 뒤에 하는 것이 순서상 맞습니다.
+        <b style="color:var(--chalk)">숨은 차지만 옆 사람과 짧게 말은 할 수 있는</b> 정도로 하세요.</p>
+      <div class="cardio-pick">
+        ${[5,10,15,20].map(m=>`<button data-m="${m}"><b>${m}</b><span>MIN</span></button>`).join("")}
+      </div>
+      <p class="rcue" style="margin-top:16px;padding:0">러닝머신 경사 걷기 · 사이클 · 일립티컬 · 계단 오르기 · 로잉 중 아무거나 괜찮습니다.
+        무릎이 불편하면 뛰는 것보다 경사 걷기나 사이클을 고르세요.</p>
+    </div>
+    <button class="rbtn ghost" id="c-skip">오늘은 건너뛰기</button>`;
+    bindHead();
+    el.querySelectorAll(".cardio-pick button").forEach(b=>b.onclick=()=>runCardio(+b.dataset.m));
+    el.querySelector("#c-skip").onclick=()=>drawDone();
+    el.scrollTop=0;
+  }
+  function runCardio(min){
+    phase="cardio";
+    let span=min*60, left2=span, endAt=Date.now()+span*1000, paused=false, lastBeep=span+1;
+    const C=2*Math.PI*88;
+    const paint=()=>{
+      const n=el.querySelector("#r-num"), c=el.querySelector("#r-ring");
+      if(n) n.textContent=`${Math.floor(left2/60)}:${String(left2%60).padStart(2,"0")}`;
+      if(c) c.setAttribute("stroke-dashoffset",(C*(1-left2/span)).toFixed(1));
+    };
+    const finish=ran=>{ clearInterval(tick); cardioMin=ran; drawDone(); };
+    const run=()=>{ clearInterval(tick);
+      tick=setInterval(()=>{
+        if(paused) return;
+        left2=Math.max(0,Math.round((endAt-Date.now())/1000));
+        if(left2<=3&&left2>0&&left2<lastBeep){ lastBeep=left2; beep(660,70); }
+        if(left2<=0){ beep(1120,300); setTimeout(()=>beep(1320,320),220); finish(min); return; }
+        paint();
+      },250); };
+    el.innerHTML=head()+`<div class="rmain">
+      <div class="rmeta">CARDIO ${min} MIN</div>
+      ${ring(span,color,1)}
+      ${runFigure()}
+      <p class="rnext">숨이 차지만 <b>말은 할 수 있는</b> 강도로</p>
+    </div>
+    <button class="rbtn" id="c-pause">일시정지</button>
+    <div class="rrow"><button class="rbtn ghost" id="c-add">+1분</button>
+      <button class="rbtn ghost" id="c-end">여기까지 하기</button></div>`;
+    bindHead();
+    const pb=el.querySelector("#c-pause");
+    pb.onclick=()=>{ paused=!paused;
+      if(!paused) endAt=Date.now()+left2*1000;
+      pb.textContent=paused?"이어서 하기":"일시정지"; };
+    el.querySelector("#c-add").onclick=()=>{ span+=60; endAt+=60000;
+      left2=Math.max(0,Math.round((endAt-Date.now())/1000)); paint(); };
+    el.querySelector("#c-end").onclick=()=>finish(Math.max(1,Math.round((span-left2)/60)));
+    run(); el.scrollTop=0;
+  }
   function drawDone(){
     phase="done"; clearInterval(tick);
     const mins=Math.max(1,Math.round((Date.now()-t0)/60000));
     const reps=d.ex.reduce((s,e)=>s+e.sets*repMid(e.reps),0);
     el.innerHTML=head()+`<div class="rmain rdone">
-      <div class="rfig" style="max-width:190px">${figure("lateral","B")}</div>
+      <div class="thumbwrap">${thumbFigure()}</div>
+      <p class="motto">흘린 땀은<br><span>너를 배신하지 않아!</span></p>
       <div class="big">SESSION COMPLETE</div>
-      <h2 class="rname" style="margin-top:6px">${d.title} 끝냈습니다</h2>
+      <h2 class="rname" style="margin-top:4px;font-size:19px">${d.title} 끝냈습니다</h2>
       <div class="rstat">
         <div><b>${total}</b><span>SETS</span></div>
         <div><b>${reps}</b><span>REPS</span></div>
         <div><b>${mins}</b><span>MIN</span></div>
+        ${cardioMin?`<div class="cardio"><b>${cardioMin}</b><span>CARDIO</span></div>`:""}
       </div>
+      ${cardioMin?`<p class="rcue" style="color:var(--blue2)">유산소 ${cardioMin}분까지 마쳤습니다.</p>`:""}
       <p class="rcue">다음 훈련까지 최소 하루는 비우고, 오늘 쓴 부위는 충분히 자는 동안 회복시킵니다.</p>
     </div>
     <button class="rbtn" id="r-close2">닫기</button>`;
@@ -1645,6 +1764,63 @@ const eqTag=n=>{
   return "기타";
 };
 const estMin=d=>{const s=d.ex.reduce((a,e)=>a+e.sets,0); return Math.round(s*(REST+35)/60);};
+
+
+/* 달리는 핏맨 — 관절마다 CSS로 회전시킵니다 */
+function runFigure(){
+  const leg=(cls,d)=>`<g transform="translate(108,90)"><g class="${cls}" style="animation-delay:${d}">
+      <line x1="0" y1="0" x2="0" y2="42" class="rl-o"/><line x1="0" y1="0" x2="0" y2="42" class="rl-i"/>
+      <g transform="translate(0,42)"><g class="${cls}-s" style="animation-delay:${d}">
+        <line x1="0" y1="0" x2="0" y2="42" class="rl-o"/><line x1="0" y1="42" x2="16" y2="43" class="rf-o"/>
+        <line x1="0" y1="0" x2="0" y2="42" class="rl-i"/><line x1="0" y1="42" x2="16" y2="43" class="rf-i"/>
+      </g></g></g></g>`;
+  const arm=(cls,d)=>`<g transform="translate(88,44)"><g class="${cls}" style="animation-delay:${d}">
+      <line x1="0" y1="0" x2="0" y2="32" class="ra-o"/><line x1="0" y1="0" x2="0" y2="32" class="ra-i"/>
+      <g transform="translate(0,32)"><g class="${cls}-f" style="animation-delay:${d}">
+        <line x1="0" y1="0" x2="17" y2="14" class="ra-o"/><line x1="0" y1="0" x2="17" y2="14" class="ra-i"/>
+      </g></g></g></g>`;
+  return `<svg class="runfig" viewBox="0 0 230 195" aria-label="달리는 핏맨">
+    <line class="rground" x1="8" y1="176" x2="222" y2="176"/>
+    <g class="rbob">
+      <g class="rback">${leg("rleg-b","-.38s")}${arm("rarm-b","-.38s")}</g>
+      <line x1="88" y1="44" x2="108" y2="90" class="rt-o"/>
+      <line x1="88" y1="44" x2="108" y2="90" class="rt-i"/>
+      <line x1="88" y1="44" x2="83" y2="33" class="rn-o"/>
+      <line x1="88" y1="44" x2="83" y2="33" class="rn-i"/>
+      <circle cx="78" cy="22" r="17" fill="#080A0D"/>
+      <circle cx="78" cy="22" r="14" fill="url(#chromeV)"/>
+      <ellipse cx="73" cy="17" rx="4.2" ry="5.4" fill="#fff" opacity=".7"/>
+      ${leg("rleg-f","0s")}${arm("rarm-f","0s")}
+    </g></svg>`;
+}
+/* 엄지를 척 든 핏맨 */
+function thumbFigure(){
+  return `<svg class="thumbfig" viewBox="0 0 300 250" aria-label="엄지를 든 핏맨">
+    <ellipse cx="150" cy="136" rx="118" ry="94" fill="url(#glow)"/>
+    <g class="mEdge" stroke-width="28"><path d="M138 174 L134 206 L134 230"/><path d="M162 174 L166 206 L166 230"/></g>
+    <g class="mLimb" stroke-width="21"><path d="M138 174 L134 206 L134 230"/><path d="M162 174 L166 206 L166 230"/></g>
+    <path class="mEdge" stroke-width="9" d="M116 92 L184 92 L174 150 L166 174 L134 174 L126 150 Z"/>
+    <path class="mBody" d="M116 92 L184 92 L174 150 L166 174 L134 174 L126 150 Z"/>
+    <path class="mEdge" stroke-width="24" d="M118 96 L106 136 L100 174"/>
+    <path class="mLimb" stroke-width="17" d="M118 96 L106 136 L100 174"/>
+    <g class="thumbarm">
+      <path class="mEdge" stroke-width="24" d="M182 96 L214 128 L208 96"/>
+      <path class="mLimb" stroke-width="17" d="M182 96 L214 128 L208 96"/>
+      <rect x="183" y="78" width="50" height="36" rx="18" fill="#080A0D"/>
+      <rect x="186.5" y="81.5" width="43" height="29" rx="14.5" fill="url(#chromeV)"/>
+      <path d="M192 98 h 32" stroke="#8A94A2" stroke-width="2.6" opacity=".75" stroke-linecap="round"/>
+      <g transform="rotate(-26 194 84)">
+        <rect x="181" y="52" width="26" height="42" rx="13" fill="#080A0D"/>
+        <rect x="184.5" y="55.5" width="19" height="35" rx="9.5" fill="url(#chromeV)"/>
+      </g>
+    </g>
+    <path class="mEdge" stroke-width="20" d="M150 76 L150 88"/>
+    <path class="mLimb" stroke-width="14" d="M150 76 L150 88"/>
+    <ellipse cx="150" cy="52" rx="18" ry="20" fill="#080A0D"/>
+    <ellipse cx="150" cy="52" rx="15.5" ry="17.5" fill="url(#chromeV)"/>
+    <ellipse cx="143.5" cy="45" rx="5" ry="6.8" fill="#fff" opacity=".7"/>
+  </svg>`;
+}
 
 function render(plan,cfg){
   const vol={};
@@ -1675,7 +1851,12 @@ function render(plan,cfg){
           <p>${d.ex.length}종목 · ${d.ex.reduce((s,e)=>s+e.sets,0)}세트 · 예상 ${estMin(d)}분</p></div>
         <button class="dgo start" data-di="${di}" style="background:${c}">이 날 시작</button>
       </div>
-      <div class="day" style="border-left:3px solid ${c}">${items}</div>
+      <div class="day" style="border-left:3px solid ${c}">${items}
+        <div class="ex finisher">
+          <div class="ex-n">마무리 · 유산소</div>
+          <div class="ex-d">5~20분</div>
+          <div class="ex-c">웨이트를 다 끝낸 뒤에 합니다. 세션을 시작하면 마지막에 시간을 고르는 화면이 나옵니다.</div>
+        </div></div>
     </div>`;
   }).join("");
 
@@ -1709,7 +1890,7 @@ function render(plan,cfg){
   document.getElementById("copy").onclick=async e=>{
     const txt=plan.map(d=>`[DAY ${d.day}] ${d.title}\n`+d.ex.map((x,i)=>{
       const w=weightFor(x.n,cfg,x.reps,false);
-      return `${i+1}. ${x.n}  ${x.sets}×${x.reps}${w?"  ▸ "+w:""}`;}).join("\n")).join("\n\n");
+      return `${i+1}. ${x.n}  ${x.sets}×${x.reps}${w?"  ▸ "+w:""}`;}).join("\n")+"\n▸ 마무리 유산소 5~20분").join("\n\n");
     const full=`핏맨 옷발 루틴 · 주 ${cfg.days}일 · ${EQ_LABEL[cfg.eq]}${cfg.bw?` · ${cfg.h}cm ${cfg.bw}kg`:""}\n\n${txt}\n\n※ 무게는 시작 기준값입니다. 마지막 2~3회가 힘든 무게로 조절하세요.`;
     try{await navigator.clipboard.writeText(full);e.target.textContent="복사됨";
       setTimeout(()=>e.target.textContent="텍스트로 복사",1800);}
